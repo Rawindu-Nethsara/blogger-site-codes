@@ -1,4 +1,4 @@
-    class ModernVideoPlayer {
+class ModernVideoPlayer {
   constructor() {
     this.video = document.getElementById('video');
     this.loading = document.getElementById('loading');
@@ -9,7 +9,7 @@
     this.speedBtn = document.getElementById('speedBtn');
     this.subtitleBtn = document.getElementById('subtitleBtn');
     this.progressTrack = document.getElementById('progressTrack');
-    this.progressBar = document.getElementById('progressBar');
+    this.progressBars = document.getElementById('progressBars');
     this.topProgress = document.getElementById('topProgress');
     this.timeDisplay = document.getElementById('timeDisplay');
     this.volumeSlider = document.getElementById('volumeSlider');
@@ -125,6 +125,8 @@
         } else if (x > rect.width * 2 / 3) {
           this.video.currentTime = Math.min(this.video.duration, this.video.currentTime + 10);
           this.showSeekIndicator('right');
+        } else {
+          this.toggleControls();
         }
       } else {
         this.tapTimeout = setTimeout(() => {
@@ -191,6 +193,23 @@
           }
         }, 10000);
       }
+    });
+
+    // Hide controls when video is paused or ended
+    this.video.addEventListener('pause', () => {
+      this.showControls();
+      this.controlsOverlay.style.opacity = '1';
+      this.controlsOverlay.style.transform = 'translateY(0)';
+      this.closeBtn.style.opacity = '1';
+      clearTimeout(this.hideControlsTimeout);
+    });
+
+    this.video.addEventListener('ended', () => {
+      this.showControls();
+      this.controlsOverlay.style.opacity = '1';
+      this.controlsOverlay.style.transform = 'translateY(0)';
+      this.closeBtn.style.opacity = '1';
+      clearTimeout(this.hideControlsTimeout);
     });
 
     // Mobile progress bar
@@ -272,12 +291,23 @@
     this.controlsOverlay.style.opacity = '1';
     this.controlsOverlay.style.transform = 'translateY(0)';
     this.closeBtn.style.opacity = '1';
-    if (this.videoContainer.classList.contains('active') && !this.video.paused) {
+    if (this.videoContainer.classList.contains('active') && !this.video.paused && !this.adContainer.style.display.includes('block')) {
       this.hideControlsTimeout = setTimeout(() => {
         this.controlsOverlay.style.opacity = '0';
         this.controlsOverlay.style.transform = 'translateY(20px)';
         this.closeBtn.style.opacity = '0';
       }, 5000);
+    }
+  }
+
+  toggleControls() {
+    if (this.controlsOverlay.style.opacity === '1') {
+      this.controlsOverlay.style.opacity = '0';
+      this.controlsOverlay.style.transform = 'translateY(20px)';
+      this.closeBtn.style.opacity = '0';
+      clearTimeout(this.hideControlsTimeout);
+    } else {
+      this.showControls();
     }
   }
 
@@ -321,7 +351,7 @@
   updateProgress() {
     if (!this.isDragging && this.video.duration) {
       const percent = (this.video.currentTime / this.video.duration) * 100;
-      this.progressBar.style.width = `${percent}%`;
+      this.progressBars.style.width = `${percent}%`;
       this.topProgress.querySelector('.progress').style.width = `${percent}%`;
       this.updateTimeDisplay();
     }
@@ -332,7 +362,7 @@
       const rect = this.progressTrack.getBoundingClientRect();
       const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       this.video.currentTime = percent * this.video.duration;
-      this.progressBar.style.width = `${percent * 100}%`;
+      this.progressBars.style.width = `${percent * 100}%`;
       this.topProgress.querySelector('.progress').style.width = `${percent * 100}%`;
     }
   }
