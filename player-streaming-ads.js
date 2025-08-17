@@ -1,4 +1,3 @@
-
     class ModernVideoPlayer {
   constructor() {
     this.video = document.getElementById('video');
@@ -10,7 +9,7 @@
     this.speedBtn = document.getElementById('speedBtn');
     this.subtitleBtn = document.getElementById('subtitleBtn');
     this.progressTrack = document.getElementById('progressTrack');
-    this.progressFill = document.getElementById('progressFill');
+    this.progressBar = document.getElementById('progressBar');
     this.topProgress = document.getElementById('topProgress');
     this.timeDisplay = document.getElementById('timeDisplay');
     this.volumeSlider = document.getElementById('volumeSlider');
@@ -322,7 +321,7 @@
   updateProgress() {
     if (!this.isDragging && this.video.duration) {
       const percent = (this.video.currentTime / this.video.duration) * 100;
-      this.progressFill.style.width = `${percent}%`;
+      this.progressBar.style.width = `${percent}%`;
       this.topProgress.querySelector('.progress').style.width = `${percent}%`;
       this.updateTimeDisplay();
     }
@@ -333,7 +332,7 @@
       const rect = this.progressTrack.getBoundingClientRect();
       const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       this.video.currentTime = percent * this.video.duration;
-      this.progressFill.style.width = `${percent * 100}%`;
+      this.progressBar.style.width = `${percent * 100}%`;
       this.topProgress.querySelector('.progress').style.width = `${percent * 100}%`;
     }
   }
@@ -448,4 +447,3 @@
 document.addEventListener('DOMContentLoaded', () => {
   new ModernVideoPlayer();
 });
-
