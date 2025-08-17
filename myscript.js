@@ -1,4 +1,4 @@
-    <script>
+
     class ModernVideoPlayer {
   constructor() {
     this.video = document.getElementById('video');
@@ -448,4 +448,4 @@
 document.addEventListener('DOMContentLoaded', () => {
   new ModernVideoPlayer();
 });
-    </script>
+
