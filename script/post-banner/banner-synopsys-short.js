@@ -1,4 +1,4 @@
-////////// BANNER SYNOPSYS SHORT FOR (...)
+////////// BANNER SYNOPSYS SHORT FOR 
   document.addEventListener("DOMContentLoaded", function () {
     const maxWords = 34;
     document.querySelectorAll("p7").forEach(el => {
