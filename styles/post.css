@@ -1029,11 +1029,11 @@ accessible tabs OVER
     100% { transform: translateY(-150px); }
 }
 .card99 h1 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
     font-size: 3em;
     margin: 0;
     text-transform: uppercase;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
     background: linear-gradient(45deg, #ffffff, #cccccc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
