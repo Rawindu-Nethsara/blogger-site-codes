@@ -1,3 +1,4 @@
+/////trailer-video
 const popup = document.getElementById("trailerPopup");
 const frame = document.getElementById("trailerFrame");
 
@@ -7,13 +8,8 @@ function openPopup() {
 
 function closePopup() {
   popup.style.display = "none";
-  // Stop video by resetting src
+  // Stop video
   frame.src = frame.src;
 }
 
-// Close popup only when clicking the overlay, not the iframe
-popup.addEventListener("click", (e) => {
-  if (e.target === popup) {
-    closePopup();
-  }
-});
+popup.onclick = closePopup;
