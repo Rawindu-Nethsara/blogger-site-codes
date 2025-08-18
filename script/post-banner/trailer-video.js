@@ -10,3 +10,5 @@ function closePopup() {
   // Stop video by resetting src
   frame.src = frame.src;
 }
+popup.onclick = closePopup;
+  
