@@ -124,11 +124,7 @@ function showLess(el) {
 
 
 
-<!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 
-  
       /////////////////SUBTITLE DOWNLOAD
       
      const firebaseConfig = {
@@ -710,3 +706,4 @@ document.addEventListener("DOMContentLoaded", function () {
   enableDragScroll(sliderDiv);
   loadRecentPosts("recent-slider");
 });
+
