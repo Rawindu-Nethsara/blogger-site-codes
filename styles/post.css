@@ -536,7 +536,7 @@ accessible tabs OVER
 }
   .card20 {
     flex: 0 0 auto;
-    width: 55%;
+    width: max-content;
     max-width: fit-content;
     height: 62px;
     background: #181818d1;
