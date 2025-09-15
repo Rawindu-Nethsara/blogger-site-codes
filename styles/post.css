@@ -1174,7 +1174,7 @@ accessible tabs OVER
         max-width: 280px;
         height: 295px;
     }
-    .card99 {
+      .card99 {
         order: 2;
         width: 100%;
         max-width: 320px;
@@ -1183,6 +1183,7 @@ accessible tabs OVER
         border-radius: 15px;
         flex-direction: column;
         justify-content: space-between;
+        margin-right: 16px;
     }
     .card99 h1 {
         font-size: 2em;
