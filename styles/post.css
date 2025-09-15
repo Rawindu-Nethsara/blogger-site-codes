@@ -3248,10 +3248,13 @@ button6 {
   
   
   
-    /*==================== 
+    
+  
+  
+  
+      /*====================
        WATCH ONLINE
     ====================== */
-
     /* Background blur overlay */
     .blur-overlay {
       position: fixed;
@@ -3266,12 +3269,10 @@ button6 {
       pointer-events: none;
       transition: opacity 0.5s ease;
     }
-
     .blur-overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
-
     /* Watch Online Button */
     .button12-container {
       display: flex;
@@ -3281,7 +3282,6 @@ button6 {
       min-height: 15vh;
       margin-top: 20px;
     }
-
     .button12 {
       display: flex;
       justify-content: center;
@@ -3299,13 +3299,11 @@ button6 {
       box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2);
       animation: pulse2 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite, pulse3 1.5s cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
     }
-
     .button12:is(:hover, :focus) {
       transform: translateY(-3px) scale(1.15);
       box-shadow: 0 8px 25px rgba(0, 230, 100, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
       background: linear-gradient(45deg, rgb(0, 200, 80) 20%, rgb(0, 255, 120) 80%);
     }
-
     .button12::before {
       content: '';
       position: absolute;
@@ -3315,11 +3313,9 @@ button6 {
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
     }
-
     .button12:is(:hover, :focus)::before {
       opacity: 1;
     }
-
     @keyframes pulse2 {
       0% {
         box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3);
@@ -3331,13 +3327,11 @@ button6 {
         box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3);
       }
     }
-
     @keyframes pulse3 {
       100% {
         box-shadow: 0 0 0 45px rgba(193, 244, 246, 0);
       }
     }
-
     .button12-text {
       font-size: 30px;
       font-weight: bold;
@@ -3347,7 +3341,6 @@ button6 {
       animation: textGlow 1.5s ease-in-out infinite;
       cursor: pointer;
     }
-
     @keyframes textGlow {
       0% {
         text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
@@ -3359,1167 +3352,236 @@ button6 {
         text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
       }
     }
-
-    /* Video container (Popup Style) */
-    .video-container12 {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 1200px;
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(20px);
-      border-radius: 10px;
-      border: 1px solid rgb(255 255 255);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 20;
-      display: none;
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.8);
-      width: -webkit-fill-available;
-    }
-
-    .video-container12.active {
-      display: block;
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-      z-index: 20;
-      position: fixed;
-    }
-
-    .video-container12:hover {
-      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.7);
-    }
-
-    /* Close button */
-    .close-btn {
-      position: absolute;
-      top: 11px;
-      right: 11px;
-      background: rgb(0 0 0 / 5%);
-      border: none;
-      color: #fffffffa;
-      cursor: pointer;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 25;
-      transition: all 0.2s ease;
-      border: 1px solid #ffffff40;
-      animation: slideInRight2 1.8s ease-out forwards;
-    }
-
-    @keyframes slideInRight2 {
-      0% {
-        opacity: 0;
-        transform: translateX(30px);
-      }
-      60% {
-        opacity: 1;
-        transform: translateX(-10px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .close-btn:hover {
-      background: rgba(255, 0, 0, 0.7);
-      transform: scale(1.1);
-    }
-
-    .close-btn svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-    }
-
-    .video-player {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      border-radius: unset;
-      overflow: hidden;
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-
-    /* Modern top progress bar */
-    .top-progress {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.2);
-      z-index: 10;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .top-progress.visible {
-      opacity: 1;
-    }
-
-    .top-progress .progress {
-      height: 100%;
-      background: linear-gradient(90deg, #ff0000 0%, #ff3333 50%, #ff6666 100%);
-      width: 0;
-      transition: width 0.1s linear;
-      border-radius: 0 2px 2px 0;
-    }
-
-    /* Viewer info bar with glass effect */
-    .viewer-info {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.9);
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 4px 12px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      z-index: 20;
-      opacity: 0;
-      transform: translateX(50px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .viewer-info.animate-slideInRight {
-      animation: slideInRight 1.5s ease-out forwards;
-    }
-
-    @keyframes slideInRight {
-      0% {
-        opacity: 0;
-        transform: translateX(50px);
-      }
-      60% {
-        opacity: 1;
-        transform: translateX(-10px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .viewer-info.visible {
-      opacity: 1;
-    }
-
-    /* Controls overlay with glass effect */
-    .controls-overlay {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 8px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 20;
-      border-radius: 10px;
-      border: 1px solid #ffffff30;
-    }
-
-    .video-player:hover .controls-overlay {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Full-screen adjustments */
-    .video-container12:fullscreen .controls-overlay {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 6px;
-      opacity: 1;
-      transform: translateY(0);
-      z-index: 30;
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 10px;
-      border: none;
-    }
-
-    /* Progress bar */
-    .progress-container {
-      position: relative;
-      margin: 10px;
-      margin-bottom: -4px;
-    }
-
-    .progress-track {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 3px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .progress-track:hover {
-      height: 8px;
-      margin-top: -1px;
-    }
-
-    .progress-bars {
-      height: 100%;
-      background: linear-gradient(90deg, #ff1515 0%, #ff3b9f 100%);
-      border-radius: 3px;
-      position: relative;
-      transition: all 0.1s linear;
-    }
-
-    .progress-thumb {
-      position: absolute;
-      right: -6px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 12px;
-      height: 12px;
-      background: #fff;
-      border-radius: 50%;
-      opacity: 0;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .progress-track:hover .progress-thumb {
-      opacity: 1;
-      transform: translateY(-50%) scale(1.2);
-    }
-
-    /* Controls */
-    .controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px;
-    }
-
-    .control-btn {
-      background: none;
-      border: none;
-      color: #fff;
-      cursor: pointer;
-      padding: 12px;
-      border-radius: 12px;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .control-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: scale(1.05);
-    }
-
-    .control-btn:active {
-      transform: scale(0.95);
-    }
-
-    .control-btn svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-    }
-
-    .play-pause-btn svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    #speedBtn svg, #subtitleBtn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    /* Time display */
-    .time-display {
-      font-size: 13px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.9);
-      margin: 0 8px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* Volume control */
-    .volume-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .volume-slider {
-      width: 80px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 2px;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.2s ease;
-    }
-
-    .volume-slider:hover {
-      height: 6px;
-      margin-top: -1px;
-    }
-
-    .volume-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #ffffff 0%, #ffffff 100%);
-      border-radius: 2px;
-      transition: width 0.1s linear;
-    }
-
-    /* Dropdown menus */
-    .dropdown-container {
-      position: relative;
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      bottom: 100%;
-      right: 0;
-      margin-bottom: 8px;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 8px;
-      display: none;
-      flex-direction: column;
-      min-width: 120px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      z-index: 30;
-    }
-
-    .dropdown-menu.show {
-      display: flex;
-      animation: slideInFromRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    @keyframes slideInFromRight {
-      from {
-        opacity: 0;
-        transform: translateX(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .dropdown-item {
-      background: none;
-      border: none;
-      color: #fff;
-      padding: 10px 12px;
-      text-align: left;
-      cursor: pointer;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .dropdown-item:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .dropdown-item.active {
-      background: linear-gradient(90deg, #ff0000 0%, #ff3333 100%);
-    }
-
-    /* Spacer */
-    .spacer {
-      flex: 1;
-    }
-
-    /* Video info section */
-    .video-info {
-      padding: 20px 24px;
-      background: rgba(255, 255, 255, 0.02);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .video-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-
-    .video-stats {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .stat-item {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* Seek indicators */
- .seek-indicator {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    border-radius: 50%;
-    font-size: 24px;
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-    pointer-events: none;
-    z-index: 15;
-    width: 10%;
-    height: 17%;
-    padding-top: 25px;
-    padding-left: 18px;
-}
-
-    .seek-indicator.show {
-      opacity: 1;
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    .seek-indicator.left {
-      left: 20px;
-    }
-
-    .seek-indicator.right {
-      right: 20px;
-    }
-
-    /* Loading state */
-    .loading {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 5;
-    }
-
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      border-top: 3px solid #ff0000;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Center play button */
-    .center-play {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 60px;
-      height: 60px;
-      background: rgba(0, 0, 0, 0.66);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      opacity: 1;
-      z-index: 15;
-      border: 1px solid #ffffffd9;
-      padding-right: 5px;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    .center-play:hover {
-      background: rgba(0, 0, 0, 0.9);
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-
-    .center-play.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .center-play svg {
-      width: 32px;
-      height: 32px;
-      fill: #fff;
-      margin-left: 4px;
-    }
-
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-        transform: translate(-50%, -50%) scale(1);
-      }
-      50% {
-        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.2);
-        transform: translate(-50%, -50%) scale(1.1);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-        transform: translate(-50%, -50%) scale(1);
-      }
-    }
-
-    /* Ad container */
-    .ad-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      display: none;
-      z-index: 25;
-    }
-
-    #adVideo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .ad-countdown {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(0,0,0,0.7);
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .skip-ad-btn {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-      display: none;
-      transition: all 0.2s ease;
-    }
-
-    .skip-ad-btn:hover {
-      background: rgba(255,255,255,0.1);
-      transform: scale(1.05);
-    }
-
-    /* Subtitle Styling */
-    video::cue {
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      font-size: 18px;
-      font-family: Arial, sans-serif;
-      padding: 2px 6px;
-      border-radius: 3px;
-    }
-
     /* Responsive Design */
-    @media (max-width: 1024px) {
-      .video-container12 {
-        width: 95%;
-        max-width: 900px;
-        border-width: 2px;
-      }
-
-      #speedBtn svg, #subtitleBtn svg {
-        width: 26px;
-        height: 26px;
-      }
-
-      .close-btn {
-        width: 37px;
-        height: 37px;
-      }
-
-      .close-btn svg {
-        width: 20px;
-        height: 20px;
-      }
-    }
-
     @media (max-width: 768px) {
-      .video-container12 {
-        width: 90%;
-      }
-
-      .video-player {
-        border-radius: 0;
-      }
-
-      .controls-overlay {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 6px;
-        opacity: 1;
-        transform: translateY(0);
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: none;
-        z-index: 30;
-      }
-
-      .video-player:hover .controls-overlay {
-        opacity: 1;
-        margin-left: 5px;
-        margin-right: 5px;
-        margin-bottom: 5px;
-      }
-
-      .top-progress {
-        height: 4px;
-        opacity: 1;
-      }
-
-      .viewer-info {
-        font-size: 12px;
-        padding: 3px 10px;
-      }
-
-      .controls {
-        gap: 6px;
-        padding: 6px 8px;
-        flex-wrap: wrap;
-        justify-content: space-between;
-      }
-
-      .control-btn {
-        padding: 10px;
-        background: rgba(0, 0, 0, 0.6);
-        border-radius: 50%;
-      }
-
-      .control-btn svg {
-        width: 22px;
-        height: 22px;
-      }
-
-      .play-pause-btn svg {
-        width: 26px;
-        height: 26px;
-      }
-
-      #speedBtn svg, #subtitleBtn svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      .volume-container {
-        display: flex;
-      }
-
-      .volume-slider {
-        width: 80px;
-      }
-
-      .time-display {
-        font-size: 12px;
-        background: rgba(0, 0, 0, 0.6);
-        padding: 4px 8px;
-        border-radius: 16px;
-        margin: 0;
-      }
-
-      .progress-container {
-        margin: 8px;
-        margin-bottom: 0;
-      }
-
-      .progress-track {
-        height: 5px;
-      }
-
-      .progress-track:hover {
-        height: 6px;
-        margin-top: 0;
-      }
-
-      .progress-thumb {
-        width: 10px;
-        height: 10px;
-      }
-
-      .video-info {
-        padding: 12px 16px;
-        background: #000;
-      }
-
-      .video-title {
-        font-size: 14px;
-        line-height: 1.4;
-      }
-
-      .video-stats {
-        gap: 12px;
-        font-size: 12px;
-      }
-
-      .seek-indicator {
-        padding: 12px;
-        font-size: 18px;
-        background: rgba(0, 0, 0, 0.8);
-      }
-
-      .dropdown-menu {
-        min-width: 100px;
-        background: rgba(0, 0, 0, 0.9);
-        border-radius: 8px;
-        padding: 6px;
-      }
-
-      .dropdown-item {
-        font-size: 12px;
-        padding: 8px 10px;
-      }
-
-      .center-play {
-        width: 50px;
-        height: 50px;
-        background: rgba(0, 0, 0, 0.7);
-        border: 1px solid #ffffff80;
-      }
-
-      .center-play svg {
-        width: 28px;
-        height: 28px;
-      }
-
-      .close-btn {
-        width: 35px;
-        height: 35px;
-      }
-
-      .close-btn svg {
-        width: 18px;
-        height: 18px;
-      }
-
       .button12-container {
         min-height: 10vh;
       }
-
       .button12 {
         width: 50px;
         height: 50px;
       }
-
       .button12-text {
         font-size: 24px;
       }
     }
-
     @media (max-width: 480px) {
-      .video-container12 {
-        width: 90%;
-      }
-
-      .viewer-info {
-        font-size: 11px;
-        padding: 2px 8px;
-      }
-
-      .controls {
-        gap: 4px;
-        padding: 4px 6px;
-      }
-
-      .control-btn {
-        padding: 8px;
-        background: rgba(0, 0, 0, 0.7);
-      }
-
-      .control-btn svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      .play-pause-btn svg {
-        width: 24px;
-        height: 24px;
-      }
-
-      #speedBtn svg, #subtitleBtn svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .volume-container {
-        display: none;
-      }
-
-      .volume-slider {
-        width: 60px;
-      }
-
-      .time-display {
-        font-size: 11px;
-        padding: 3px 6px;
-      }
-
-      .progress-container {
-        margin: 6px;
-        margin-bottom: 0;
-      }
-
-      .progress-track {
-        height: 4px;
-      }
-
-      .progress-track:hover {
-        height: 5px;
-      }
-
-      .dropdown-menu {
-        right: 0;
-        min-width: 90px;
-        margin-bottom: 1px;
-      }
-
-      .dropdown-item {
-        font-size: 11px;
-        padding: 6px 8px;
-      }
-
-      .seek-indicator {
-        padding: 10px;
-        font-size: 16px;
-      }
-
-      .center-play {
-        width: 40px;
-        height: 40px;
-      }
-
-      .center-play svg {
-        width: 24px;
-        height: 24px;
-      }
-
-      .video-info {
-        padding: 10px 12px;
-      }
-
-      .video-title {
-        font-size: 13px;
-      }
-
-      .video-stats {
-        gap: 8px;
-        font-size: 11px;
-      }
-
-      .close-btn {
-        width: 29px;
-        height: 29px;
-        top: 12px;
-        right: 12px;
-      }
-
-      .close-btn svg {
-        width: 16px;
-        height: 16px;
-      }
-
       .button12 {
         width: 45px;
         height: 45px;
       }
-
       .button12-text {
         font-size: 20px;
       }
     }
 
-    /* Landscape mode adjustments for small screens */
-    @media (max-height: 500px) and (orientation: landscape) {
-      .video-container12 {
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        transform: none;
-      }
-
-      .controls-overlay {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 4px;
+    /* Server Selection UI Styles */
+    @keyframes pulse23 {
+      0%, 100% {
+        transform: scale(1);
         opacity: 1;
-        transform: translateY(0);
-        background: rgba(0, 0, 0, 0.8);
-        border-radius: 0;
-        z-index: 30;
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
       }
-
-      .video-player:hover .controls-overlay {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .controls {
-        gap: 4px;
-        padding: 4px 6px;
-        flex-wrap: nowrap;
-      }
-
-      .control-btn {
-        padding: 6px;
-      }
-
-      .control-btn svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .play-pause-btn svg {
-        width: 22px;
-        height: 22px;
-      }
-
-      #speedBtn svg, #subtitleBtn svg {
-        width: 16px;
-        height: 16px;
-      }
-
-      .volume-slider {
-        width: 50px;
-      }
-
-      .time-display {
-        font-size: 10px;
-        padding: 2px 6px;
-      }
-
-      .progress-container {
-        margin: 4px;
-        margin-bottom: 0;
-      }
-
-      .progress-track {
-        height: 4px;
-      }
-
-      .progress-track:hover {
-        height: 5px;
-      }
-
-      .dropdown-menu {
-        min-width: 80px;
-        padding: 4px;
-      }
-
-      .dropdown-item {
-        font-size: 10px;
-        padding: 6px 8px;
-      }
-
-      .viewer-info {
-        font-size: 10px;
-        padding: 2px 6px;
-        top: 5px;
-      }
-
-      .close-btn {
-        width: 30px;
-        height: 30px;
-        top: 5px;
-        right: 5px;
-      }
-
-      .close-btn svg {
-        width: 16px;
-        height: 16px;
-      }
-
-      .seek-indicator {
-        padding: 8px;
-        font-size: 14px;
+      50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+        box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
       }
     }
-
-    /* Responsive for ads */
-    @media (max-width: 768px) {
-      .ad-countdown {
-        bottom: 10px;
-        left: 10px;
-        padding: 6px 12px;
-        font-size: 12px;
-      }
-
-      .skip-ad-btn {
-        bottom: 10px;
-        right: 10px;
-        padding: 6px 12px;
-        font-size: 12px;
-      }
+    .pulse23-animation {
+      animation: pulse23 1.5s ease-in-out infinite;
     }
-
-    @media (max-width: 480px) {
-      .ad-countdown {
-        bottom: 8px;
-        left: 8px;
-        padding: 4px 8px;
-        font-size: 11px;
-      }
-
-      .skip-ad-btn {
-        bottom: 8px;
-        right: 8px;
-        padding: 4px 8px;
-        font-size: 11px;
-      }
+    .recommend-label {
+      position: absolute;
+      right: 15px;
+      top: 2px;
+      padding: 1px 8px;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 40px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      line-height: normal;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 64px;
+      z-index: 1;
+      padding-bottom: 3px;
+      overflow: hidden;
+      font-family: "Kanit", sans-serif;
+      background: linear-gradient(90deg, #FFD700 20%, #fff 50%, #FFD700 80%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine23 5s linear infinite;
     }
-
-    #viewerInfo {
-      transition: opacity 0.3s ease;
+    @keyframes shine23 {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
     }
-    /*==================== 
-      WATCH ONLINE OVER
-    ====================== */
-
-    /* Custom Notification Styles */
-#custom-notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px; /* 👈 stick to right */
-    display: none;
-    align-items: center;
-    background: rgb(26 26 26 / 80%);
-    backdrop-filter: blur(10px);
-    border-radius: 32px;
-    padding: 12px 24px;
-    box-shadow: 0 4px 20px rgb(73 73 73 / 30%);
-    z-index: 25;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    max-width: 90%;
-    transition: opacity 0.3s ease;
-    border: 1px solid #ffffff70;
-}
-
-    #custom-notification.show {
+    .recommend-label::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      border-radius: inherit;
+      background: linear-gradient(12deg, #FFC107, #dfdfdf00, #00000000);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      z-index: -1;
+    }
+    /* Video Player Styles */
+    .plyr {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .plyr video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2;
+    }
+    .plyr__captions .plyr__caption {
+      background: none !important;
+      text-shadow: none !important;
+      color: #fff !important;
+      font-size: 18px !important;
+      font-weight: 400;
+      padding: 0 !important;
+      line-height: normal;
+      z-index: 3;
+    }
+    .live-views-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 15;
+      display: flex;
+      gap: 15px;
+      flex-wrap: nowrap;
+    }
+    .glass-bar {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      line-height: normal;
+    }
+    .glass-bar:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #f10f0f8a;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+      70% { box-shadow: 0 0 0 6px rgba(255, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+    }
+    .live-text {
+      white-space: nowrap;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .views-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+    #skipButton {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(30, 30, 30, 0.55);
+      border: 1px solid #ffffff4a;
+      padding: 7px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      display: none;
+      z-index: 99999;
+      border-radius: 20px;
+      line-height: normal;
+      color: #fff;
+    }
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+    }
+    /* Popup Styles */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgb(0 0 0 / 72%);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+    .popup-content {
+      position: relative;
+      width: 100%;
+      max-width: 960px;
+      background: transparent;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 20, 0.4);
+    }
+    .popup-overlay.active {
+      display: flex;
+    }
+    /* Hide Server Section by Default */
+    #serverSection {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    #serverSection.active {
       display: flex;
       opacity: 1;
     }
-
-    .notify-text {
-      white-space: nowrap;
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    .notify-close {
-      background: none;
-      border: none;
-      cursor: pointer;
-      margin-left: 16px;
-      padding: 0;
-      display: flex;
-      align-items: center;
-    }
-
-    .notify-close svg {
-      width: 16px;
-      height: 16px;
-      fill: #fff;
-    }
-
-    .notify-close:hover svg {
-      fill: #ff0000;
-    }
-
-    /* Responsive adjustments for notification */
     @media (max-width: 768px) {
-      #custom-notification {
-        padding: 10px 20px;
-        bottom: 15px;
-      }
-
-      .notify-text {
-        font-size: 14px;
-      }
-
-      .notify-close svg {
-        width: 14px;
-        height: 14px;
+      .popup-content {
+        max-width: 90%;
       }
     }
-
-    @media (max-width: 480px) {
-      #custom-notification {
-        padding: 8px 16px;
-        bottom: 10px;
-         left: 50%;
-      right: auto;
-      transform: translateX(-50%);
+    @media (max-width: 640px) {
+      .popup-content {
+        max-width: 100%;
       }
-
-      .notify-text {
-        font-size: 10px;
-      }
-
-      .notify-close svg {
-        width: 12px;
-        height: 12px;
-      }
-
-      .notify-close {
-        margin-left: 12px;
+      .plyr {
+        border-radius: 0;
       }
     }
-
+    /*===================================
+             WATCH ONLINE OVER
+    ===================================== */
