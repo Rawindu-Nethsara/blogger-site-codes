@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const titleDiv = document.createElement("div");
   titleDiv.className = "title-wrap main-title";
-  titleDiv.innerHTML = `<h3 class="title" style="font-weight: bold;font-size: 16px;font-family: math;margin: 0px;top: 15px;margin-left: 25px;" id="recent-posts">Recent Posts</h3><hr style="border: none;height: 1px;background-color: #70707059;width: 100%;margin: 20px;">`;
+  titleDiv.innerHTML = `<h3 class="title" style="font-weight: bold;font-size: 16px;font-family: math;margin: 0px;top: 15px;margin-left: 25px;" id="recent-posts">Recent Posts</h3><hr style="border: none;height: 1px;background-color: #70707059;width: -webkit-fill-available;margin: 20px;margin-right: 11px;margin-left: -23px;position: relative;">`;
 
   const sliderDiv = document.createElement("div");
   sliderDiv.className = "slider";
