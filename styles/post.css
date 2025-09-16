@@ -752,11 +752,12 @@ accessible tabs OVER
     height: 100%;
 }
 .custom-slider {
-  display: flex;
-  overflow-x: scroll;
-  scroll-behavior: smooth;
-  cursor: grab;
-      margin-left: -32px;
+    display: flex;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    cursor: grab;
+    margin-right: -20px;
+    margin-left: -20px;
 }
 .custom-slider.active {
   cursor: grabbing;
