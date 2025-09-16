@@ -3283,23 +3283,28 @@ button6 {
       min-height: 15vh;
       margin-top: 20px;
     }
-    .button12 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, rgb(0, 180, 60) 20%, rgb(0, 230, 100) 80%);
-      border: none;
-      color: #fff;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s ease-in-out;
-      box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2);
-      animation: pulse2 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite, pulse3 1.5s cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
-    }
+ 
+.button12 {
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgb(0 103 185) 40%, rgb(196 205 255) 80%);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s 
+ease-in-out;
+    box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+    animation: pulse2 1.5s 
+cubic-bezier(0.6, 0, 0.4, 1) infinite, pulse3 1.5s 
+cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
+}
     .button12:is(:hover, :focus) {
       transform: translateY(-3px) scale(1.15);
       box-shadow: 0 8px 25px rgba(0, 230, 100, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
@@ -3317,17 +3322,20 @@ button6 {
     .button12:is(:hover, :focus)::before {
       opacity: 1;
     }
-    @keyframes pulse2 {
-      0% {
-        box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3);
-      }
-      50% {
-        box-shadow: 0 4px 25px rgba(0, 230, 100, 0.5);
-      }
-      100% {
-        box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3);
-      }
-    }
+ @keyframes pulse3 {
+   0% {
+    box-shadow: 0 4px 15px rgb(255 255 255 / 30%);
+   }
+   50% {
+    box-shadow: 0 4px 25px rgb(0 137 230 / 50%);
+}
+   100% {
+    box-shadow: 0 4px 15px rgb(0 115 230 / 30%);
+}
+   100% {
+    box-shadow: 0 0 0 45px rgba(193, 244, 246, 0);
+}
+  }
     @keyframes pulse3 {
       100% {
         box-shadow: 0 0 0 45px rgba(193, 244, 246, 0);
