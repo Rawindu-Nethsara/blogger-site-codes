@@ -3285,8 +3285,7 @@ button6 {
     }
  
 .button12 {
-    display: flex
-;
+    display: flex;
     justify-content: center;
     align-items: center;
     width: 60px;
@@ -3305,11 +3304,11 @@ ease-in-out;
 cubic-bezier(0.6, 0, 0.4, 1) infinite, pulse3 1.5s 
 cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
 }
-    .button12:is(:hover, :focus) {
-      transform: translateY(-3px) scale(1.15);
-      box-shadow: 0 8px 25px rgba(0, 230, 100, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
-      background: linear-gradient(45deg, rgb(0, 200, 80) 20%, rgb(0, 255, 120) 80%);
-    }
+ .button12:is(:hover, :focus) {
+    transform: translateY(-3px) scale(1.15);
+    box-shadow: 0 8px 25px rgba(0, 230, 100, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(45deg, rgb(0 43 200) 20%, rgb(0 114 255) 80%);
+}
     .button12::before {
       content: '';
       position: absolute;
