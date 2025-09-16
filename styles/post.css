@@ -3290,13 +3290,14 @@ button6 {
     }
  
 .button12 {
-    display: flex;
+    display: flex
+;
     justify-content: center;
     align-items: center;
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(45deg, rgb(0 103 185) 40%, rgb(196 205 255) 80%);
+    background: linear-gradient(45deg, rgb(8 8 8) 40%, rgb(98 98 99) 80%);
     border: none;
     color: #fff;
     cursor: pointer;
@@ -3308,6 +3309,7 @@ ease-in-out;
     animation: pulse2 1.5s 
 cubic-bezier(0.6, 0, 0.4, 1) infinite, pulse3 1.5s 
 cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
+    border: 2px solid #3b3b3b;
 }
  .button12:is(:hover, :focus) {
     transform: translateY(-3px) scale(1.15);
@@ -3326,7 +3328,21 @@ cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
     .button12:is(:hover, :focus)::before {
       opacity: 1;
     }
-@keyframes pulse2 { 0% { box-shadow: 0 4px 15px rgb(255 255 255 / 30%); } 50% { box-shadow: 0 4px 25px rgb(0 137 230 / 50%); } 100% { box-shadow: 0 4px 15px rgb(0 115 230 / 30%); } 100% { box-shadow: 0 0 0 45px rgba(193, 244, 246, 0); } }
+@keyframes pulse2 {
+0% {
+    box-shadow: 0 4px 15px rgb(255 255 255 / 30%);
+}
+50% {
+    box-shadow: 0 4px 25px rgb(255 255 255 / 50%);
+}
+
+100% {
+    box-shadow: 0 4px 15px rgb(255 255 255 / 30%);
+}
+100% {
+    box-shadow: 0 0 0 45px rgb(255 255 255 / 0%);
+  } 
+}
  
 @keyframes pulse3 {
       100% {
