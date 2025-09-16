@@ -3321,7 +3321,7 @@ cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
     .button12:is(:hover, :focus)::before {
       opacity: 1;
     }
- @keyframes pulse3 {
+ @keyframes pulse2 {
    0% {
     box-shadow: 0 4px 15px rgb(255 255 255 / 30%);
    }
