@@ -17,7 +17,7 @@ body{
 .banner {
     position: relative;
     width: 104%;
-    min-height: auto;
+    min-height: 100vh;
     padding: 0 100px;
     display: flex;
     justify-content: flex-start;
@@ -289,6 +289,12 @@ body{
 @media (max-width: 600px) {
   .popup-content iframe {
     height: 250px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .banner {
+    min-height: auto;
+    padding: 0 20px; /* optional: adjust padding for smaller screens */
   }
 }
 /*==================== 
