@@ -295,6 +295,9 @@ body{
   .banner {
     min-height: auto;
   }
+	.banner .content {
+    top: -40px;
+}
 }
 /*==================== 
 	landing page OVER
