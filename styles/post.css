@@ -291,12 +291,7 @@ body{
     height: 250px;
   }
 }
-@media screen and (max-width: 480px) {
-  .banner {
-    min-height: auto;
-    padding: 0 20px; /* optional: adjust padding for smaller screens */
-  }
-}
+
 /*==================== 
 	landing page OVER
 ====================== */
