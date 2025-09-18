@@ -446,13 +446,14 @@ accessible tabs OVER
     line-height: normal;
     opacity: .5;
 }
-  blockquote.s-1, details.sp {
+blockquote.s-1, details.sp {
     font-size: .93rem;
-    padding: 25px 25px 25px 45px;
+    padding: 25px 1px 25px 45px;
     border: 1px solid #3c3c3c;
     border-left: 0;
     border-right: 0;
     line-height: 1.7em;
+    padding-left: 1px;
 }
   blockquote, .cmC i[rel=quote] {
     position: relative;
