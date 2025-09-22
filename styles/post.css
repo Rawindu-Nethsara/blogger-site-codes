@@ -3286,6 +3286,31 @@ button6 {
       /*====================
        WATCH ONLINE
     ====================== */
+
+ /* make button a stacking context */
+.plyr__control[data-plyr="settings"]{
+  position: relative;
+  overflow: visible; /* allow pseudo-element to sit on top */
+}
+/* keep svg visible but behind the overlay */
+.plyr__control[data-plyr="settings"] svg{
+  position: relative;
+  z-index: 1;
+  /* optional fallback if svg still intercepts events */
+  pointer-events: none; /* allow pointer to go to overlay instead */
+}
+/* overlay sits on top of the svg and receives pointer events */
+.plyr__control[data-plyr="settings"]::after{
+  content: "";
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  z-index: 2; /* above svg */
+  pointer-events: auto;/* overlay receives clicks/hover */
+}
+.plyr__menu__container .plyr__control--forward:after {
+  display:none;
+}
+/* style the overlay on hover (this creates the visible "bg action") */
     /* Background blur overlay */
     .blur-overlay {
       position: fixed;
@@ -3313,34 +3338,29 @@ button6 {
       min-height: 15vh;
       margin-top: 20px;
     }
- 
-.button12 {
-    display: flex
-;
-    justify-content: center;
-    align-items: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, rgb(8 8 8) 40%, rgb(98 98 99) 80%);
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s 
-ease-in-out;
-    box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2);
-    animation: pulse2 1.5s 
-cubic-bezier(0.6, 0, 0.4, 1) infinite, pulse3 1.5s 
-cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
-    border: 2px solid #3b3b3b;
-}
- .button12:is(:hover, :focus) {
-    transform: translateY(-3px) scale(1.15);
-    box-shadow: 0 8px 25px rgba(0, 230, 100, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
-    background: linear-gradient(45deg, rgb(0 43 200) 20%, rgb(0 114 255) 80%);
-}
+    .button12 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, rgb(8 8 8) 40%, rgb(98 98 99) 80%);
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease-in-out;
+      box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+      animation: pulse2 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite, pulse3 1.5s cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
+      border: 2px solid #3b3b3b;
+    }
+    .button12:is(:hover, :focus) {
+      transform: translateY(-3px) scale(1.15);
+      box-shadow: 0 8px 25px rgba(0, 230, 100, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+      background: linear-gradient(45deg, rgb(0 43 200) 20%, rgb(0 114 255) 80%);
+    }
     .button12::before {
       content: '';
       position: absolute;
@@ -3353,26 +3373,13 @@ cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
     .button12:is(:hover, :focus)::before {
       opacity: 1;
     }
-@keyframes pulse2 {
-0% {
-    box-shadow: 0 4px 15px rgb(255 255 255 / 30%);
-}
-50% {
-    box-shadow: 0 4px 25px rgb(255 255 255 / 50%);
-}
-
-100% {
-    box-shadow: 0 4px 15px rgb(255 255 255 / 30%);
-}
-100% {
-    box-shadow: 0 0 0 45px rgb(255 255 255 / 0%);
-  } 
-}
- 
-@keyframes pulse3 {
-      100% {
-        box-shadow: 0 0 0 45px rgba(193, 244, 246, 0);
-      }
+    @keyframes pulse2 {
+      0% { box-shadow: 0 4px 15px rgb(255 255 255 / 30%); }
+      50% { box-shadow: 0 4px 25px rgb(255 255 255 / 50%); }
+      100% { box-shadow: 0 4px 15px rgb(255 255 255 / 30%); }
+    }
+    @keyframes pulse3 {
+      100% { box-shadow: 0 0 0 45px rgba(193, 244, 246, 0); }
     }
     .button12-text {
       font-size: 30px;
@@ -3384,55 +3391,26 @@ cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
       cursor: pointer;
     }
     @keyframes textGlow {
-      0% {
-        text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-      }
-      50% {
-        text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-      }
-      100% {
-        text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-      }
+      0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
+      50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+      100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
     }
     /* Responsive Design */
     @media (max-width: 768px) {
-      .button12-container {
-        min-height: 10vh;
-      }
-      .button12 {
-        width: 50px;
-        height: 50px;
-      }
-      .button12-text {
-        font-size: 24px;
-      }
+      .button12-container { min-height: 10vh; }
+      .button12 { width: 50px; height: 50px; }
+      .button12-text { font-size: 24px; }
     }
     @media (max-width: 480px) {
-      .button12 {
-        width: 45px;
-        height: 45px;
-      }
-      .button12-text {
-        font-size: 20px;
-      }
+      .button12 { width: 45px; height: 45px; }
+      .button12-text { font-size: 20px; }
     }
-
     /* Server Selection UI Styles */
     @keyframes pulse23 {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-        box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
-      }
-      50% {
-        transform: scale(1.2);
-        opacity: 0.7;
-        box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
-      }
+      0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
+      50% { transform: scale(1.2); opacity: 0.7; box-shadow: 0 0 12px rgba(34, 197, 94, 0.8); }
     }
-    .pulse23-animation {
-      animation: pulse23 1.5s ease-in-out infinite;
-    }
+    .pulse23-animation { animation: pulse23 1.5s ease-in-out infinite; }
     .recommend-label {
       position: absolute;
       right: 15px;
@@ -3482,12 +3460,27 @@ cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
       background: #000;
       overflow: hidden;
       z-index: 1;
+      pointer-events: auto !important;
     }
     .plyr video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       z-index: 2;
+    }
+    .plyr__controls {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto !important;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .plyr__controls * {
+      pointer-events: auto !important;
+    }
+    .plyr--hide-controls .plyr__controls {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none !important;
     }
     .plyr__captions .plyr__caption {
       background: none !important;
@@ -3503,10 +3496,11 @@ cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
       position: absolute;
       top: 20px;
       right: 20px;
-      z-index: 15;
+      z-index: 4;
       display: flex;
       gap: 15px;
       flex-wrap: nowrap;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     .glass-bar {
       background: rgba(255, 255, 255, 0.08);
@@ -3587,7 +3581,7 @@ cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
       z-index: 1000;
       justify-content: center;
       align-items: center;
-      padding: 16px;
+      padding: 30px;
     }
     .popup-content {
       position: relative;
@@ -3611,19 +3605,40 @@ cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
       display: flex;
       opacity: 1;
     }
+    .plyr__video-wrapper {
+    height: auto;
+}
     @media (max-width: 768px) {
-      .popup-content {
-        max-width: 90%;
-      }
+      .popup-content { max-width: 90%; }
     }
     @media (max-width: 640px) {
-      .popup-content {
-        max-width: 100%;
-      }
-      .plyr {
-        border-radius: 0;
-      }
+      .popup-content { max-width: 100%; }
+      .plyr { border-radius: 0; }
     }
+    @media (max-width: 480px) {
+  .plyr__volume {
+    display: none;
+  }
+      .glass-bar {
+    padding: 6px 10px;
+    left: 0px;
+    position: relative;
+    top: 0px;
+}
+      .live-views-container {
+    gap: 15px;
+  }
+      .popup-content {
+    border-radius: 10px;
+}
+       .popup-overlay {
+      padding: 16px;
+      padding-right: 5px;
+    padding-left: 5px;
+    }
+}
+    
+
     /*===================================
              WATCH ONLINE OVER
     ===================================== */
