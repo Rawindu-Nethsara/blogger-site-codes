@@ -648,7 +648,7 @@ blockquote.s-1, details.sp {
     place-content: center;
     border-radius: 10px;
     overflow: hidden;
-    z-index: 9;
+    z-index: 5;
     transition: 0.3s ease-in-out;
 }
 .content9 {
