@@ -2,7 +2,7 @@
 // Updated ADS_CONFIG (add endpoint)
 const ADS_CONFIG = {
     // ... your existing config from original code
-    endpoint: 'https://script.google.com/macros/s/AKfycbwP9ayrrYsgQXcB2lPytJCvbC_pZDZ1j0eEjIxXMXm7t6QTkEKyY3-HZS-E1AOzQXt_/exec'
+    endpoint: 'https://script.google.com/macros/s/AKfycbwv1NFbh-LM_vCPMPFnGS9KJz8E4jK9tzvBJTx1CDHyxNP-3zIHiDi6FU2A1Kk8esmb2Q/exec'
 };
 
 // Updated getRandomAd()
