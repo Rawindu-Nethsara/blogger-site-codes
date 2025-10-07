@@ -31,7 +31,7 @@ async function updateAdView(adUrl) {
     }
 }
 
-// Integrate into your original player code, e.g.:
+// Integrate into your player, e.g.:
 // STATE.adContainer.addEventListener('ended', async () => {
 //     console.log('[Ad] Ended naturally');
 //     await updateAdView(STATE.currentAdUrl);
