@@ -2,7 +2,7 @@ const ADS_CONFIG = {
     endpoint: 'https://script.google.com/macros/s/AKfycbzCN38he4GItqvJIGxKrRg9odkofBcaK8qDBKvEv7GIBYI_YlyZ2rnhiz8fnQ1y8_ZptQ/exec'
 };
 
-async function getRandomAd() {
+async function getRandomAd() { 
     try {
         const res = await fetch(ADS_CONFIG.endpoint, {
             method: 'POST',
