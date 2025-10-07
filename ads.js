@@ -1,5 +1,5 @@
 const ADS_CONFIG = {
-    endpoint: 'https://script.google.com/macros/s/AKfycbwv1NFbh-LM_vCPMPFnGS9KJz8E4jK9tzvBJTx1CDHyxNP-3zIHiDi6FU2A1Kk8esmb2Q/exec'
+    endpoint: 'https://script.google.com/macros/s/AKfycbwjYiKMVn_tn8oyxuQKClhuvrjqDZpluUQlWofcqViZJVO-hllGvk5dKOnEfc2UZY7Vww/exec'
 };
 
 async function getRandomAd() {
