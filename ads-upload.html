@@ -68,14 +68,12 @@
         }
         createStars();
     </script>
-
     <div class="container mx-auto px-4 py-8">
         <!-- Header -->
         <header class="text-center mb-8 glass-card p-4 rounded-2xl">
             <h1 class="text-5xl font-bold text-lightblue-300 mb-2" style="text-shadow: 0 0 10px rgba(173,216,230,0.5);">MOOVIED Ads System</h1>
             <p class="text-gray-200 text-lg">Track Your Ad Views in Real-Time</p>
         </header>
-
         <!-- Login/Signup Modal -->
         <div id="authModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
             <div class="glass-card rounded-2xl p-8 w-full max-w-lg mx-4 fade-in">
@@ -108,7 +106,6 @@
                 </p>
             </div>
         </div>
-
         <!-- Dashboard -->
         <div id="dashboard" class="hidden">
             <!-- Profile Header -->
@@ -122,7 +119,6 @@
                 </div>
                 <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition duration-300">Logout</button>
             </div>
-
             <!-- Tabs -->
             <div class="glass-card rounded-xl p-6 mb-6">
                 <div class="flex border-b border-gray-600">
@@ -131,13 +127,11 @@
                     <button onclick="showTab('settings')" class="px-6 py-3 font-bold text-gray-200 hover:text-lightblue-300 transition duration-300">Settings</button>
                 </div>
             </div>
-
             <!-- Ads Tab -->
             <div id="adsTab" class="glass-card rounded-xl p-6">
                 <h3 class="text-2xl font-bold mb-4 text-lightblue-200">Your Ads - Real-Time Views</h3>
                 <div id="adsList" class="space-y-6"></div>
             </div>
-
             <!-- Upload Tab -->
             <div id="uploadTab" class="glass-card rounded-xl p-6 hidden">
                 <h3 class="text-2xl font-bold mb-4 text-lightblue-200">Upload New Ad</h3>
@@ -161,7 +155,6 @@
                     <button type="submit" id="uploadSubmit" class="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold transition duration-300">Upload & Submit Payment</button>
                 </form>
             </div>
-
             <!-- Settings Tab -->
             <div id="settingsTab" class="glass-card rounded-xl p-6 hidden">
                 <h3 class="text-2xl font-bold mb-4 text-lightblue-200">Profile Settings</h3>
@@ -183,14 +176,13 @@
             </div>
         </div>
     </div>
-
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznhzcqZLs3WcWU2LLgoKFGy6FVwo2U2UH0zmx0cNMsqJlKLPveXNVlcb-OsSnBQc5C/exec';
         const IMGBB_API = '912bd1391e9372f65c0918e17f0ed370';
         const ADMIN_EMAIL = 'mooviedsited@gmail.com';
         const SUPPORT_WHATSAPP = '+94770342724';
         let currentUser = { email: '', name: '', deviceId: '' };
-
+        let adsPollInterval; // For real-time polling
         // Convert file to base64
         async function fileToBase64(file) {
             return new Promise((resolve, reject) => {
@@ -200,7 +192,6 @@
                 reader.readAsDataURL(file);
             });
         }
-
         // Toggle button loading state
         function toggleButtonLoading(buttonId, isLoading) {
             const button = document.getElementById(buttonId);
@@ -214,7 +205,6 @@
                 button.textContent = button.id === 'uploadSubmit' ? 'Upload & Submit Payment' : button.id === 'authSubmit' ? 'Submit' : 'Save Changes';
             }
         }
-
         // Device ID for one-time login
         function getDeviceId() {
             let id = localStorage.getItem('deviceId');
@@ -224,7 +214,6 @@
             }
             return id;
         }
-
         // Check Session
         async function checkSession() {
             const savedEmail = localStorage.getItem('userEmail');
@@ -242,6 +231,7 @@
                         loadUserData();
                         document.getElementById('dashboard').classList.remove('hidden');
                         document.getElementById('authModal').classList.add('hidden');
+                        startAdsPolling(); // Start real-time polling
                     } else {
                         localStorage.removeItem('userEmail');
                         showAuth();
@@ -254,7 +244,15 @@
                 showAuth();
             }
         }
-
+        // Real-time polling for ads views
+        function startAdsPolling() {
+            loadAds(); // Initial load
+            if (adsPollInterval) clearInterval(adsPollInterval);
+            adsPollInterval = setInterval(loadAds, 10000); // Poll every 10s for real-time updates
+        }
+        function stopAdsPolling() {
+            if (adsPollInterval) clearInterval(adsPollInterval);
+        }
         // Show/Hide Auth Modal
         function showAuth() {
             document.getElementById('authModal').classList.remove('hidden');
@@ -262,7 +260,6 @@
         function toggleAuth() {
             document.getElementById('authModal').classList.add('hidden');
         }
-
         // Switch Login/Signup
         function switchAuth() {
             const action = document.getElementById('action').value === 'login' ? 'signup' : 'login';
@@ -271,7 +268,6 @@
             document.getElementById('name').disabled = action === 'login';
             document.getElementById('switchText').textContent = action === 'login' ? 'Signup' : 'Login';
         }
-
         // Auth Form Submit
         document.getElementById('authForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -295,6 +291,7 @@
                     loadUserData();
                     document.getElementById('dashboard').classList.remove('hidden');
                     toggleAuth();
+                    startAdsPolling(); // Start polling on login
                 } else {
                     alert(data.message || 'Authentication failed');
                 }
@@ -303,7 +300,6 @@
                 alert('Network error: ' + err.message);
             }
         });
-
         // Load User Data
         async function loadUserData() {
             document.getElementById('userName').textContent = currentUser.name;
@@ -313,8 +309,7 @@
             document.getElementById('editPhone').value = currentUser.phone;
             await loadAds();
         }
-
-        // Load Ads
+        // Load Ads (Real-time via polling)
         async function loadAds() {
             const formData = new URLSearchParams({ action: 'get_ads', email: currentUser.email });
             try {
@@ -335,29 +330,26 @@
                         ` : ''}
                     </div>
                 `).join('');
+                console.log('[Dashboard] Ads updated with real-time views');
             } catch (err) {
                 console.error('Load ads error:', err);
                 alert('Failed to load ads');
             }
         }
-
         // Contact Support
         function contactSupport(adId) {
             window.open(`https://wa.me/${SUPPORT_WHATSAPP}?text=Ad ID:${adId} - Need assistance`);
         }
-
         // Upload Form
         document.getElementById('uploadForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const adFile = document.getElementById('adFile').files[0];
             const slipFile = document.getElementById('slipFile').files[0];
             const expiryType = document.getElementById('expiryType').value;
-
             if (!adFile || !slipFile) {
                 alert('Please select both ad and slip files');
                 return;
             }
-
             toggleButtonLoading('uploadSubmit', true);
             try {
                 const adBase64 = await fileToBase64(adFile);
@@ -371,7 +363,6 @@
                     slipFileName: slipFile.name,
                     expiryType
                 });
-
                 const res = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     body: formData
@@ -381,7 +372,7 @@
                 if (data.success) {
                     alert('Ad uploaded successfully! Awaiting approval.');
                     document.getElementById('uploadForm').reset();
-                    loadAds();
+                    loadAds(); // Refresh list
                 } else {
                     alert(data.message || 'Upload failed');
                 }
@@ -390,7 +381,6 @@
                 alert('Upload error: ' + err.message);
             }
         });
-
         // Settings Form
         document.getElementById('settingsForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -434,7 +424,6 @@
                 alert('Update error: ' + err.message);
             }
         });
-
         // Upload to ImgBB
         async function uploadToImgBB(file) {
             const formData = new FormData();
@@ -449,7 +438,6 @@
                 throw err;
             }
         }
-
         // Tab Switching
         function showTab(tab) {
             document.querySelectorAll('[id$="Tab"]').forEach(el => el.classList.add('hidden'));
@@ -458,15 +446,14 @@
             event.target.classList.add('text-lightblue-300', 'border-b-2', 'border-lightblue-500');
             if (tab === 'ads') loadAds();
         }
-
         // Logout
         function logout() {
+            stopAdsPolling(); // Stop polling
             localStorage.removeItem('userEmail');
             currentUser = {};
             document.getElementById('dashboard').classList.add('hidden');
             showAuth();
         }
-
         // Init
         checkSession();
     </script>
