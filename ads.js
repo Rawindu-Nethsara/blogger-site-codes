@@ -1,11 +1,7 @@
-// ads.js - Updated Player JS for Server 01 & 02
-// Updated ADS_CONFIG (add endpoint)
 const ADS_CONFIG = {
-    // ... your existing config from original code
     endpoint: 'https://script.google.com/macros/s/AKfycbwv1NFbh-LM_vCPMPFnGS9KJz8E4jK9tzvBJTx1CDHyxNP-3zIHiDi6FU2A1Kk8esmb2Q/exec'
 };
 
-// Updated getRandomAd()
 async function getRandomAd() {
     try {
         const res = await fetch(ADS_CONFIG.endpoint, {
@@ -20,10 +16,9 @@ async function getRandomAd() {
     } catch (err) {
         console.error('[Ad] Fetch failed:', err);
     }
-    return null; // Fallback if error
+    return null;
 }
 
-// In endAd(), after ad ends, update view
 async function updateAdView(adUrl) {
     try {
         await fetch(ADS_CONFIG.endpoint, {
@@ -36,11 +31,9 @@ async function updateAdView(adUrl) {
     }
 }
 
-// In ad ended handler (integrate into your original code):
+// Integrate into your original player code, e.g.:
 // STATE.adContainer.addEventListener('ended', async () => {
 //     console.log('[Ad] Ended naturally');
 //     await updateAdView(STATE.currentAdUrl);
 //     endAd();
 // }, { once: true });
-
-// For pre/mid-roll calls, await getRandomAd()
