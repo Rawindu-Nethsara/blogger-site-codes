@@ -1,7 +1,7 @@
 const ADS_CONFIG = {
-    endpoint: 'https://script.google.com/macros/s/AKfycbznhzcqZLs3WcWU2LLgoKFGy6FVwo2U2UH0zmx0cNMsqJlKLPveXNVlcb-OsSnBQc5C/exec'
+    endpoint: 'https://script.google.com/macros/s/AKfycbx5IbylpxIbQAHmKxdoxG1CSz7cjIR4g1hmGTS6sxp57tuBT3w_UD8mx90jKo7Ui5T8yA/exec'
 };
- 
+
 async function getRandomAd() {
     try {
         const res = await fetch(ADS_CONFIG.endpoint, {
@@ -31,9 +31,9 @@ async function updateAdView(adUrl) {
     }
 }
 
-// Integrate into your player, e.g.:
-// STATE.adContainer.addEventListener('ended', async () => {
-//     console.log('[Ad] Ended naturally');
-//     await updateAdView(STATE.currentAdUrl);
-//     endAd();
-// }, { once: true });
+// For integration in player: Call this on ad end
+// Example:
+// adContainer.addEventListener('ended', async () => {
+//     await updateAdView(currentAdUrl);
+//     // Then end ad
+// });
