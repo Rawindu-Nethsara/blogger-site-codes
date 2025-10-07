@@ -6,7 +6,7 @@
     <title>MOOVIED Ads Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Dark Galaxy Animated Background - Enhanced */
+        /* Dark Galaxy Animated Background */
         body {
             background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
             overflow-x: hidden;
@@ -40,6 +40,11 @@
         /* Progress Bar for Views */
         .views-progress { background: rgba(255, 255, 255, 0.1); border-radius: 50px; height: 10px; }
         .views-fill { background: linear-gradient(to right, #add8e6, #4169e1); border-radius: 50px; height: 100%; transition: width 0.5s ease; }
+        /* Loading Spinner */
+        .loading::after {
+            content: ''; display: inline-block; width: 20px; height: 20px; border: 2px solid #fff; border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite; margin-left: 10px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="min-h-screen text-white font-sans">
@@ -96,7 +101,7 @@
                         <label class="block text-sm font-bold mb-2 text-gray-200">Phone/WhatsApp</label>
                         <input type="tel" id="phone" class="w-full p-3 rounded-lg glass text-white placeholder-gray-400" placeholder="+94..." required>
                     </div>
-                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold transition duration-300">Submit</button>
+                    <button type="submit" id="authSubmit" class="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold transition duration-300">Submit</button>
                 </form>
                 <p class="text-center mt-4">
                     <button onclick="switchAuth()" class="text-lightblue-300 hover:underline">Switch to <span id="switchText">Signup</span></button>
@@ -138,7 +143,7 @@
                 <h3 class="text-2xl font-bold mb-4 text-lightblue-200">Upload New Ad</h3>
                 <form id="uploadForm">
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2 text-gray-200">Ad File (Video/Image)</label>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Ad File (Video/Image, max 5MB)</label>
                         <input type="file" id="adFile" accept="video/*,image/*" class="w-full p-3 rounded-lg glass text-white" required>
                     </div>
                     <div class="mb-4">
@@ -150,10 +155,10 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2 text-gray-200">Bank Deposit Slip</label>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Bank Deposit Slip (Image, max 5MB)</label>
                         <input type="file" id="slipFile" accept="image/*" class="w-full p-3 rounded-lg glass text-white" required>
                     </div>
-                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold transition duration-300">Upload & Submit Payment</button>
+                    <button type="submit" id="uploadSubmit" class="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold transition duration-300">Upload & Submit Payment</button>
                 </form>
             </div>
 
@@ -173,7 +178,7 @@
                         <label class="block text-sm font-bold mb-2 text-gray-200">Profile Image</label>
                         <input type="file" id="profileFile" accept="image/*" class="w-full p-3 rounded-lg glass text-white">
                     </div>
-                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold transition duration-300">Save Changes</button>
+                    <button type="submit" id="settingsSubmit" class="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold transition duration-300">Save Changes</button>
                 </form>
             </div>
         </div>
@@ -189,11 +194,29 @@
         // Convert file to base64
         async function fileToBase64(file) {
             return new Promise((resolve, reject) => {
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    reject(new Error('File size exceeds 5MB limit'));
+                    return;
+                }
                 const reader = new FileReader();
                 reader.onload = () => resolve(reader.result);
                 reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
+        }
+
+        // Toggle button loading state
+        function toggleButtonLoading(buttonId, isLoading) {
+            const button = document.getElementById(buttonId);
+            if (isLoading) {
+                button.disabled = true;
+                button.classList.add('loading');
+                button.textContent = button.id === 'uploadSubmit' ? 'Uploading...' : 'Submitting...';
+            } else {
+                button.disabled = false;
+                button.classList.remove('loading');
+                button.textContent = button.id === 'uploadSubmit' ? 'Upload & Submit Payment' : button.id === 'authSubmit' ? 'Submit' : 'Save Changes';
+            }
         }
 
         // Device ID for one-time login
@@ -210,12 +233,14 @@
         async function checkSession() {
             const savedEmail = localStorage.getItem('userEmail');
             if (savedEmail) {
+                toggleButtonLoading('authSubmit', true);
                 try {
                     const res = await fetch(SCRIPT_URL, {
                         method: 'POST',
                         body: new URLSearchParams({ action: 'verify', email: savedEmail, deviceId: getDeviceId() })
                     });
                     const data = await res.json();
+                    toggleButtonLoading('authSubmit', false);
                     if (data.success) {
                         currentUser = data.user;
                         loadUserData();
@@ -226,6 +251,7 @@
                         showAuth();
                     }
                 } catch (err) {
+                    toggleButtonLoading('authSubmit', false);
                     showAuth();
                 }
             } else {
@@ -253,6 +279,7 @@
         // Auth Form Submit
         document.getElementById('authForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            toggleButtonLoading('authSubmit', true);
             const action = document.getElementById('action').value;
             const formData = new URLSearchParams({
                 action,
@@ -265,6 +292,7 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
                 const data = await res.json();
+                toggleButtonLoading('authSubmit', false);
                 if (data.success) {
                     currentUser = data.user;
                     localStorage.setItem('userEmail', currentUser.email);
@@ -275,6 +303,7 @@
                     alert(data.message || 'Authentication failed');
                 }
             } catch (err) {
+                toggleButtonLoading('authSubmit', false);
                 alert('Network error: ' + err.message);
             }
         });
@@ -313,6 +342,7 @@
                 `).join('');
             } catch (err) {
                 console.error('Load ads error:', err);
+                alert('Failed to load ads');
             }
         }
 
@@ -344,6 +374,7 @@
                 return;
             }
 
+            toggleButtonLoading('uploadSubmit', true);
             try {
                 const adBase64 = await fileToBase64(adFile);
                 const slipBase64 = await fileToBase64(slipFile);
@@ -362,6 +393,7 @@
                     body: formData
                 });
                 const data = await res.json();
+                toggleButtonLoading('uploadSubmit', false);
                 if (data.success) {
                     alert('Ad uploaded successfully! Awaiting approval.');
                     document.getElementById('uploadForm').reset();
@@ -370,6 +402,7 @@
                     alert(data.message || 'Upload failed');
                 }
             } catch (err) {
+                toggleButtonLoading('uploadSubmit', false);
                 alert('Upload error: ' + err.message);
             }
         });
@@ -377,12 +410,20 @@
         // Settings Form
         document.getElementById('settingsForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            toggleButtonLoading('settingsSubmit', true);
             const profileFile = document.getElementById('profileFile').files[0];
             let imgUrl = currentUser.profileImg;
             if (profileFile) {
-                imgUrl = await uploadToImgBB(profileFile);
-                if (!imgUrl) {
-                    alert('Profile image upload failed');
+                try {
+                    imgUrl = await uploadToImgBB(profileFile);
+                    if (!imgUrl) {
+                        toggleButtonLoading('settingsSubmit', false);
+                        alert('Profile image upload failed');
+                        return;
+                    }
+                } catch (err) {
+                    toggleButtonLoading('settingsSubmit', false);
+                    alert('Profile image upload error: ' + err.message);
                     return;
                 }
             }
@@ -396,20 +437,25 @@
             try {
                 const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
                 const data = await res.json();
+                toggleButtonLoading('settingsSubmit', false);
                 if (data.success) {
                     currentUser = { ...currentUser, ...data.user };
                     loadUserData();
-                    alert('Updated!');
+                    alert('Profile updated!');
                 } else {
                     alert('Update failed');
                 }
             } catch (err) {
+                toggleButtonLoading('settingsSubmit', false);
                 alert('Update error: ' + err.message);
             }
         });
 
         // Upload to ImgBB
         async function uploadToImgBB(file) {
+            if (file.size > 5 * 1024 * 1024) {
+                throw new Error('Profile image exceeds 5MB limit');
+            }
             const formData = new FormData();
             formData.append('image', file);
             formData.append('key', IMGBB_API);
@@ -419,7 +465,7 @@
                 return data.success ? data.data.url : null;
             } catch (err) {
                 console.error('ImgBB error:', err);
-                return null;
+                throw err;
             }
         }
 
