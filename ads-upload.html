@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOOVIED Ads Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Dark Galaxy Animated Background */
+        body {
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            overflow-x: hidden;
+            position: relative;
+        }
+        .stars {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;
+        }
+        .star {
+            position: absolute; background: white; border-radius: 50%; animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+        /* Glassmorphism */
+        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .glass-card { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(100, 149, 237, 0.3); box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); }
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+    </style>
+</head>
+<body class="min-h-screen text-white font-sans">
+    <!-- Stars Background -->
+    <div class="stars" id="stars"></div>
+    <script>
+        // Generate Blinking Stars
+        function createStars() {
+            const starsDiv = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = star.style.height = Math.random() * 2 + 1 + 'px';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsDiv.appendChild(star);
+            }
+        }
+        createStars();
+    </script>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-lightblue-300 mb-2">MOOVIED Ads System</h1>
+            <p class="text-gray-300">Professional Ad Management Dashboard</p>
+        </header>
+
+        <!-- Login/Signup Modal -->
+        <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="glass-card rounded-2xl p-8 w-full max-w-md mx-4 fade-in">
+                <div class="flex justify-end mb-4">
+                    <button onclick="toggleAuth()" class="text-white hover:text-gray-300">&times;</button>
+                </div>
+                <h2 id="modalTitle" class="text-2xl font-bold mb-6 text-center">Login</h2>
+                <form id="authForm">
+                    <input type="hidden" id="action" value="login">
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Name (Signup Only)</label>
+                        <input type="text" id="name" class="w-full p-3 rounded-lg glass text-black" placeholder="Full Name" required disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Email</label>
+                        <input type="email" id="email" class="w-full p-3 rounded-lg glass text-black" placeholder="Email" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Password</label>
+                        <input type="password" id="password" class="w-full p-3 rounded-lg glass text-black" placeholder="Password" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Phone/WhatsApp</label>
+                        <input type="tel" id="phone" class="w-full p-3 rounded-lg glass text-black" placeholder="+94..." required>
+                    </div>
+                    <button type="submit" class="w-full bg-lightblue-500 hover:bg-lightblue-600 p-3 rounded-lg font-bold">Submit</button>
+                </form>
+                <p class="text-center mt-4">
+                    <button onclick="switchAuth()" class="text-lightblue-300 hover:underline">Switch to <span id="switchText">Signup</span></button>
+                </p>
+            </div>
+        </div>
+
+        <!-- Dashboard (Hidden Initially) -->
+        <div id="dashboard" class="hidden">
+            <!-- Profile Header -->
+            <div class="glass-card rounded-xl p-6 mb-6 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <img id="profileImg" src="https://via.placeholder.com/60" alt="Profile" class="w-16 h-16 rounded-full">
+                    <div>
+                        <h2 id="userName" class="text-xl font-bold">User</h2>
+                        <p id="userEmail" class="text-gray-300">email@example.com</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Logout</button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="glass-card rounded-xl p-6 mb-6">
+                <div class="flex border-b border-gray-700">
+                    <button onclick="showTab('ads')" class="px-6 py-2 font-bold text-lightblue-300 border-b-2 border-lightblue-500">My Ads</button>
+                    <button onclick="showTab('upload')" class="px-6 py-2 font-bold">Upload Ad</button>
+                    <button onclick="showTab('settings')" class="px-6 py-2 font-bold">Settings</button>
+                </div>
+            </div>
+
+            <!-- Ads Tab -->
+            <div id="adsTab" class="glass-card rounded-xl p-6 hidden">
+                <h3 class="text-xl font-bold mb-4">Your Ads</h3>
+                <div id="adsList" class="space-y-4"></div>
+            </div>
+
+            <!-- Upload Tab -->
+            <div id="uploadTab" class="glass-card rounded-xl p-6 hidden">
+                <h3 class="text-xl font-bold mb-4">Upload New Ad</h3>
+                <form id="uploadForm">
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Ad File (Video/Image)</label>
+                        <input type="file" id="adFile" accept="video/*,image/*" class="w-full p-3 rounded-lg glass text-black" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Expiry Type</label>
+                        <select id="expiryType" class="w-full p-3 rounded-lg glass text-black">
+                            <option value="1month">1 Month - Rs 550</option>
+                            <option value="12month">12 Months - Rs 5000</option>
+                            <option value="lifetime">Lifetime - Rs 45000</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Bank Deposit Slip</label>
+                        <input type="file" id="slipFile" accept="image/*" class="w-full p-3 rounded-lg glass text-black" required>
+                    </div>
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold">Upload & Submit Payment</button>
+                </form>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settingsTab" class="glass-card rounded-xl p-6 hidden">
+                <h3 class="text-xl font-bold mb-4">Profile Settings</h3>
+                <form id="settingsForm">
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Name</label>
+                        <input type="text" id="editName" class="w-full p-3 rounded-lg glass text-black" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Phone/WhatsApp</label>
+                        <input type="tel" id="editPhone" class="w-full p-3 rounded-lg glass text-black" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Profile Image</label>
+                        <input type="file" id="profileFile" accept="image/*" class="w-full p-3 rounded-lg glass text-black">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwP9ayrrYsgQXcB2lPytJCvbC_pZDZ1j0eEjIxXMXm7t6QTkEKyY3-HZS-E1AOzQXt_/exec'; // Your web app URL
+        const IMGBB_API = '912bd1391e9372f65c0918e17f0ed370';
+        const ADMIN_EMAIL = 'mooviedsited@gmail.com';
+        const SUPPORT_WHATSAPP = '+94770342724';
+        let currentUser = { email: '', name: '', deviceId: '' };
+
+        // Device ID for one-time login
+        function getDeviceId() {
+            let id = localStorage.getItem('deviceId');
+            if (!id) {
+                id = btoa(navigator.userAgent + Date.now());
+                localStorage.setItem('deviceId', id);
+            }
+            return id;
+        }
+
+        // Check Session
+        function checkSession() {
+            const savedEmail = localStorage.getItem('userEmail');
+            if (savedEmail) {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: new URLSearchParams({ action: 'verify', email: savedEmail, deviceId: getDeviceId() })
+                }).then(r => r.json()).then(data => {
+                    if (data.success) {
+                        currentUser = data.user;
+                        loadUserData();
+                        document.getElementById('dashboard').classList.remove('hidden');
+                        document.getElementById('authModal').classList.add('hidden');
+                    } else {
+                        localStorage.removeItem('userEmail');
+                        showAuth();
+                    }
+                }).catch(() => showAuth());
+            } else {
+                showAuth();
+            }
+        }
+
+        // Show/Hide Auth Modal
+        function showAuth() {
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+        function toggleAuth() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        // Switch Login/Signup
+        function switchAuth() {
+            const action = document.getElementById('action').value === 'login' ? 'signup' : 'login';
+            document.getElementById('action').value = action;
+            document.getElementById('modalTitle').textContent = action.charAt(0).toUpperCase() + action.slice(1);
+            document.getElementById('name').disabled = action === 'login';
+            document.getElementById('switchText').textContent = action === 'login' ? 'Signup' : 'Login';
+        }
+
+        // Auth Form Submit
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const action = document.getElementById('action').value;
+            const formData = new URLSearchParams({
+                action,
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value, // Will hash in backend
+                phone: document.getElementById('phone').value,
+                deviceId: getDeviceId()
+            });
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.success) {
+                    currentUser = data.user;
+                    localStorage.setItem('userEmail', currentUser.email);
+                    loadUserData();
+                    document.getElementById('dashboard').classList.remove('hidden');
+                    toggleAuth();
+                } else {
+                    alert(data.message || 'Error');
+                }
+            } catch (err) {
+                alert('Network error');
+            }
+        });
+
+        // Load User Data
+        async function loadUserData() {
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            if (currentUser.profileImg) document.getElementById('profileImg').src = currentUser.profileImg;
+            await loadAds();
+        }
+
+        // Load Ads
+        async function loadAds() {
+            const formData = new URLSearchParams({ action: 'get_ads', email: currentUser.email });
+            const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+            const data = await res.json();
+            const list = document.getElementById('adsList');
+            list.innerHTML = data.ads.map(ad => `
+                <div class="glass p-4 rounded-lg">
+                    <p><strong>Type:</strong> ${ad.AdType} | <strong>Views:</strong> ${ad.Views} | <strong>Expiry:</strong> ${new Date(ad.ExpiryDate).toLocaleDateString()}</p>
+                    <p><strong>Status:</strong> ${ad.Status}</p>
+                    ${ad.Status === 'pending' ? `
+                        <button onclick="activateAd('${ad.ID}')" class="bg-green-500 px-4 py-2 rounded mr-2">Ads Get</button>
+                        <button onclick="rejectAd('${ad.ID}')" class="bg-red-500 px-4 py-2 rounded">Ads Not Get</button>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Activate Ad
+        async function activateAd(adId) {
+            const formData = new URLSearchParams({ action: 'activate_ad', adId, email: currentUser.email });
+            await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+            loadAds();
+        }
+
+        // Reject Ad (Contact Support)
+        function rejectAd(adId) {
+            window.open(`https://wa.me/${SUPPORT_WHATSAPP}?text=Ads Not Approved ID:${adId}`);
+        }
+
+        // Upload Form
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('action', 'upload_ad');
+            formData.append('email', currentUser.email);
+            formData.append('adFile', document.getElementById('adFile').files[0]);
+            formData.append('expiryType', document.getElementById('expiryType').value);
+            formData.append('slipFile', document.getElementById('slipFile').files[0]);
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Ad Uploaded! Await Approval.');
+                    loadAds();
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert('Upload Error');
+            }
+        });
+
+        // Settings Form
+        document.getElementById('settingsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const profileFile = document.getElementById('profileFile').files[0];
+            let imgUrl = currentUser.profileImg;
+            if (profileFile) {
+                imgUrl = await uploadToImgBB(profileFile);
+            }
+            const formData = new URLSearchParams({
+                action: 'update_profile',
+                email: currentUser.email,
+                name: document.getElementById('editName').value,
+                phone: document.getElementById('editPhone').value,
+                profileImg: imgUrl
+            });
+            const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.success) {
+                currentUser = { ...currentUser, ...data.user };
+                loadUserData();
+                alert('Updated!');
+            }
+        });
+
+        // Upload to ImgBB
+        async function uploadToImgBB(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('key', IMGBB_API);
+            const res = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
+            const data = await res.json();
+            return data.success ? data.data.url : null;
+        }
+
+        // Tab Switching
+        function showTab(tab) {
+            document.querySelectorAll('[id$="Tab"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tab + 'Tab').classList.remove('hidden');
+            document.querySelectorAll('button[onclick="showTab"]').forEach(btn => btn.classList.remove('text-lightblue-300', 'border-b-2', 'border-lightblue-500'));
+            event.target.classList.add('text-lightblue-300', 'border-b-2', 'border-lightblue-500');
+            if (tab === 'ads') loadAds();
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('userEmail');
+            currentUser = {};
+            document.getElementById('dashboard').classList.add('hidden');
+            showAuth();
+        }
+
+        // Init
+        document.getElementById('editName').value = ''; // Will load on show
+        checkSession();
+        showTab('ads'); // Default
+    </script>
+</body>
+</html>
