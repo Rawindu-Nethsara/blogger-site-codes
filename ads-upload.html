@@ -6,7 +6,7 @@
     <title>MOOVIED Ads Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Dark Galaxy Animated Background */
+        /* Dark Galaxy Animated Background - Enhanced with more stars and nebula effect */
         body {
             background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
             overflow-x: hidden;
@@ -19,31 +19,46 @@
             position: absolute; background: white; border-radius: 50%; animation: twinkle 3s infinite alternate;
         }
         @keyframes twinkle {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.2); }
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.3); }
         }
-        /* Glassmorphism */
-        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .glass-card { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(100, 149, 237, 0.3); box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); }
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeIn 0.5s ease-out; }
+        /* Nebula Glow */
+        .nebula {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -2;
+            background: radial-gradient(circle at 50% 50%, rgba(173, 216, 230, 0.1) 0%, transparent 50%);
+            animation: nebulaMove 30s linear infinite;
+        }
+        @keyframes nebulaMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-10%, -10%); }
+        }
+        /* Glassmorphism - Enhanced with more depth */
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
+        .glass-card { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(100, 149, 237, 0.4); box-shadow: 0 10px 35px rgba(31, 38, 135, 0.4); border-radius: 20px; }
+        /* Animations - Smoother fade-in */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        /* Progress Bar for Views */
+        .views-progress { background: rgba(255, 255, 255, 0.1); border-radius: 50px; height: 8px; }
+        .views-fill { background: linear-gradient(to right, #add8e6, #4169e1); border-radius: 50px; height: 100%; transition: width 0.5s ease; }
     </style>
 </head>
 <body class="min-h-screen text-white font-sans">
-    <!-- Stars Background -->
+    <!-- Nebula and Stars Background -->
+    <div class="nebula"></div>
     <div class="stars" id="stars"></div>
     <script>
-        // Generate Blinking Stars
+        // Generate Blinking Stars - Increased density
         function createStars() {
             const starsDiv = document.getElementById('stars');
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < 300; i++) { // More stars
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
-                star.style.width = star.style.height = Math.random() * 2 + 1 + 'px';
+                star.style.width = star.style.height = Math.random() * 3 + 1 + 'px'; // Varied size
                 star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = Math.random() * 2 + 2 + 's'; // Varied speed
                 starsDiv.appendChild(star);
             }
         }
@@ -51,38 +66,38 @@
     </script>
 
     <div class="container mx-auto px-4 py-8">
-        <!-- Header -->
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-lightblue-300 mb-2">MOOVIED Ads System</h1>
-            <p class="text-gray-300">Professional Ad Management Dashboard</p>
+        <!-- Header - Enhanced with glow -->
+        <header class="text-center mb-8 glass-card p-4 rounded-2xl">
+            <h1 class="text-5xl font-bold text-lightblue-300 mb-2" style="text-shadow: 0 0 10px rgba(173,216,230,0.5);">MOOVIED Ads System</h1>
+            <p class="text-gray-200 text-lg">Advanced Ad Management Dashboard - Track Views in Real-Time</p>
         </header>
 
-        <!-- Login/Signup Modal -->
-        <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="glass-card rounded-2xl p-8 w-full max-w-md mx-4 fade-in">
+        <!-- Login/Signup Modal - Improved layout -->
+        <div id="authModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+            <div class="glass-card rounded-2xl p-8 w-full max-w-lg mx-4 fade-in">
                 <div class="flex justify-end mb-4">
-                    <button onclick="toggleAuth()" class="text-white hover:text-gray-300">&times;</button>
+                    <button onclick="toggleAuth()" class="text-white hover:text-gray-300 text-2xl">&times;</button>
                 </div>
-                <h2 id="modalTitle" class="text-2xl font-bold mb-6 text-center">Login</h2>
+                <h2 id="modalTitle" class="text-3xl font-bold mb-6 text-center text-lightblue-200">Login</h2>
                 <form id="authForm">
                     <input type="hidden" id="action" value="login">
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Name (Signup Only)</label>
-                        <input type="text" id="name" class="w-full p-3 rounded-lg glass text-black" placeholder="Full Name" required disabled>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Name (Signup Only)</label>
+                        <input type="text" id="name" class="w-full p-3 rounded-lg glass text-white placeholder-gray-400" placeholder="Full Name" required disabled>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Email</label>
-                        <input type="email" id="email" class="w-full p-3 rounded-lg glass text-black" placeholder="Email" required>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Email</label>
+                        <input type="email" id="email" class="w-full p-3 rounded-lg glass text-white placeholder-gray-400" placeholder="Email" required>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Password</label>
-                        <input type="password" id="password" class="w-full p-3 rounded-lg glass text-black" placeholder="Password" required>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Password</label>
+                        <input type="password" id="password" class="w-full p-3 rounded-lg glass text-white placeholder-gray-400" placeholder="Password" required>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Phone/WhatsApp</label>
-                        <input type="tel" id="phone" class="w-full p-3 rounded-lg glass text-black" placeholder="+94..." required>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Phone/WhatsApp</label>
+                        <input type="tel" id="phone" class="w-full p-3 rounded-lg glass text-white placeholder-gray-400" placeholder="+94..." required>
                     </div>
-                    <button type="submit" class="w-full bg-lightblue-500 hover:bg-lightblue-600 p-3 rounded-lg font-bold">Submit</button>
+                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold transition duration-300">Submit</button>
                 </form>
                 <p class="text-center mt-4">
                     <button onclick="switchAuth()" class="text-lightblue-300 hover:underline">Switch to <span id="switchText">Signup</span></button>
@@ -92,81 +107,81 @@
 
         <!-- Dashboard (Hidden Initially) -->
         <div id="dashboard" class="hidden">
-            <!-- Profile Header -->
+            <!-- Profile Header - Enhanced with stats -->
             <div class="glass-card rounded-xl p-6 mb-6 flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <img id="profileImg" src="https://via.placeholder.com/60" alt="Profile" class="w-16 h-16 rounded-full">
+                    <img id="profileImg" src="https://via.placeholder.com/60" alt="Profile" class="w-16 h-16 rounded-full border-2 border-blue-500">
                     <div>
-                        <h2 id="userName" class="text-xl font-bold">User</h2>
+                        <h2 id="userName" class="text-2xl font-bold text-lightblue-200">User</h2>
                         <p id="userEmail" class="text-gray-300">email@example.com</p>
                     </div>
                 </div>
-                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">Logout</button>
+                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition duration-300">Logout</button>
             </div>
 
-            <!-- Tabs -->
+            <!-- Tabs - Enhanced styling -->
             <div class="glass-card rounded-xl p-6 mb-6">
-                <div class="flex border-b border-gray-700">
-                    <button onclick="showTab('ads')" class="px-6 py-2 font-bold text-lightblue-300 border-b-2 border-lightblue-500">My Ads</button>
-                    <button onclick="showTab('upload')" class="px-6 py-2 font-bold">Upload Ad</button>
-                    <button onclick="showTab('settings')" class="px-6 py-2 font-bold">Settings</button>
+                <div class="flex border-b border-gray-600">
+                    <button onclick="showTab('ads')" class="px-6 py-3 font-bold text-lightblue-300 border-b-2 border-lightblue-500 transition duration-300">My Ads</button>
+                    <button onclick="showTab('upload')" class="px-6 py-3 font-bold text-gray-200 hover:text-lightblue-300 transition duration-300">Upload Ad</button>
+                    <button onclick="showTab('settings')" class="px-6 py-3 font-bold text-gray-200 hover:text-lightblue-300 transition duration-300">Settings</button>
                 </div>
             </div>
 
-            <!-- Ads Tab -->
-            <div id="adsTab" class="glass-card rounded-xl p-6 hidden">
-                <h3 class="text-xl font-bold mb-4">Your Ads</h3>
-                <div id="adsList" class="space-y-4"></div>
+            <!-- Ads Tab - Enhanced with views progress bar -->
+            <div id="adsTab" class="glass-card rounded-xl p-6">
+                <h3 class="text-2xl font-bold mb-4 text-lightblue-200">Your Ads - Real-Time Views Tracking</h3>
+                <div id="adsList" class="space-y-6"></div>
             </div>
 
             <!-- Upload Tab -->
             <div id="uploadTab" class="glass-card rounded-xl p-6 hidden">
-                <h3 class="text-xl font-bold mb-4">Upload New Ad</h3>
+                <h3 class="text-2xl font-bold mb-4 text-lightblue-200">Upload New Ad</h3>
                 <form id="uploadForm">
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Ad File (Video/Image)</label>
-                        <input type="file" id="adFile" accept="video/*,image/*" class="w-full p-3 rounded-lg glass text-black" required>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Ad File (Video/Image)</label>
+                        <input type="file" id="adFile" accept="video/*,image/*" class="w-full p-3 rounded-lg glass text-white" required>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Expiry Type</label>
-                        <select id="expiryType" class="w-full p-3 rounded-lg glass text-black">
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Expiry Type</label>
+                        <select id="expiryType" class="w-full p-3 rounded-lg glass text-white">
                             <option value="1month">1 Month - Rs 550</option>
                             <option value="12month">12 Months - Rs 5000</option>
                             <option value="lifetime">Lifetime - Rs 45000</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Bank Deposit Slip</label>
-                        <input type="file" id="slipFile" accept="image/*" class="w-full p-3 rounded-lg glass text-black" required>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Bank Deposit Slip</label>
+                        <input type="file" id="slipFile" accept="image/*" class="w-full p-3 rounded-lg glass text-white" required>
                     </div>
-                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold">Upload & Submit Payment</button>
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold transition duration-300">Upload & Submit Payment</button>
                 </form>
             </div>
 
             <!-- Settings Tab -->
             <div id="settingsTab" class="glass-card rounded-xl p-6 hidden">
-                <h3 class="text-xl font-bold mb-4">Profile Settings</h3>
+                <h3 class="text-2xl font-bold mb-4 text-lightblue-200">Profile Settings</h3>
                 <form id="settingsForm">
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Name</label>
-                        <input type="text" id="editName" class="w-full p-3 rounded-lg glass text-black" required>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Name</label>
+                        <input type="text" id="editName" class="w-full p-3 rounded-lg glass text-white" required>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Phone/WhatsApp</label>
-                        <input type="tel" id="editPhone" class="w-full p-3 rounded-lg glass text-black" required>
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Phone/WhatsApp</label>
+                        <input type="tel" id="editPhone" class="w-full p-3 rounded-lg glass text-white" required>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2">Profile Image</label>
-                        <input type="file" id="profileFile" accept="image/*" class="w-full p-3 rounded-lg glass text-black">
+                        <label class="block text-sm font-bold mb-2 text-gray-200">Profile Image</label>
+                        <input type="file" id="profileFile" accept="image/*" class="w-full p-3 rounded-lg glass text-white">
                     </div>
-                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold">Save Changes</button>
+                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold transition duration-300">Save Changes</button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyO01HwgqS8mk-rXJQJVD5kk0uwTGvb-f9-9EhnO7LHc558TsOSuLuCpbHA4UcfelBUfw/exec'; // Your web app URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwP9ayrrYsgQXcB2lPytJCvbC_pZDZ1j0eEjIxXMXm7t6QTkEKyY3-HZS-E1AOzQXt_/exec'; // Update with your web app URL
         const IMGBB_API = '912bd1391e9372f65c0918e17f0ed370';
         const ADMIN_EMAIL = 'mooviedsited@gmail.com';
         const SUPPORT_WHATSAPP = '+94770342724';
@@ -251,27 +266,34 @@
             }
         });
 
-        // Load User Data
+        // Load User Data - Pre-fill settings
         async function loadUserData() {
             document.getElementById('userName').textContent = currentUser.name;
             document.getElementById('userEmail').textContent = currentUser.email;
             if (currentUser.profileImg) document.getElementById('profileImg').src = currentUser.profileImg;
+            document.getElementById('editName').value = currentUser.name;
+            document.getElementById('editPhone').value = currentUser.phone;
             await loadAds();
         }
 
-        // Load Ads
+        // Load Ads - Enhanced display with progress bar (assuming max views for visual = 10000)
         async function loadAds() {
             const formData = new URLSearchParams({ action: 'get_ads', email: currentUser.email });
             const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
             const data = await res.json();
             const list = document.getElementById('adsList');
             list.innerHTML = data.ads.map(ad => `
-                <div class="glass p-4 rounded-lg">
-                    <p><strong>Type:</strong> ${ad.AdType} | <strong>Views:</strong> ${ad.Views} | <strong>Expiry:</strong> ${new Date(ad.ExpiryDate).toLocaleDateString()}</p>
-                    <p><strong>Status:</strong> ${ad.Status}</p>
+                <div class="glass p-4 rounded-lg transition duration-300 hover:shadow-lg">
+                    <p class="text-lg font-bold text-lightblue-200">${ad.AdType.toUpperCase()} Ad</p>
+                    <p><strong>Views:</strong> ${ad.Views} (Watched by ${ad.Views} users)</p>
+                    <div class="views-progress mt-2">
+                        <div class="views-fill" style="width: ${(ad.Views / 10000) * 100}%"></div>
+                    </div>
+                    <p><strong>Expiry:</strong> ${new Date(ad.ExpiryDate).toLocaleDateString()}</p>
+                    <p><strong>Status:</strong> ${ad.Status.toUpperCase()}</p>
                     ${ad.Status === 'pending' ? `
-                        <button onclick="activateAd('${ad.ID}')" class="bg-green-500 px-4 py-2 rounded mr-2">Ads Get</button>
-                        <button onclick="rejectAd('${ad.ID}')" class="bg-red-500 px-4 py-2 rounded">Ads Not Get</button>
+                        <button onclick="activateAd('${ad.ID}')" class="bg-green-500 px-4 py-2 rounded mr-2 hover:bg-green-600 transition">Ads Get</button>
+                        <button onclick="rejectAd('${ad.ID}')" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition">Ads Not Get</button>
                     ` : ''}
                 </div>
             `).join('');
@@ -289,36 +311,54 @@
             window.open(`https://wa.me/${SUPPORT_WHATSAPP}?text=Ads Not Approved ID:${adId}`);
         }
 
-        // Upload Form
+        // Upload Form - Fixed and enhanced
         document.getElementById('uploadForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const adFile = document.getElementById('adFile').files[0];
+            const slipFile = document.getElementById('slipFile').files[0];
+            const expiryType = document.getElementById('expiryType').value;
+
+            if (!adFile || !slipFile) {
+                alert('Please select both ad and slip files');
+                return;
+            }
+
             const formData = new FormData();
             formData.append('action', 'upload_ad');
             formData.append('email', currentUser.email);
-            formData.append('adFile', document.getElementById('adFile').files[0]);
-            formData.append('expiryType', document.getElementById('expiryType').value);
-            formData.append('slipFile', document.getElementById('slipFile').files[0]);
+            formData.append('adFile', adFile);
+            formData.append('slipFile', slipFile);
+            formData.append('expiryType', expiryType);
+
             try {
-                const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
                 const data = await res.json();
                 if (data.success) {
-                    alert('Ad Uploaded! Await Approval.');
-                    loadAds();
+                    alert('Ad uploaded successfully! Awaiting approval.');
+                    document.getElementById('uploadForm').reset(); // Clear form
+                    loadAds(); // Refresh ads list
                 } else {
-                    alert(data.message);
+                    alert(data.message || 'Upload failed');
                 }
             } catch (err) {
-                alert('Upload Error');
+                alert('Network error: ' + err.message);
             }
         });
 
-        // Settings Form
+        // Settings Form - Fixed profile upload
         document.getElementById('settingsForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const profileFile = document.getElementById('profileFile').files[0];
             let imgUrl = currentUser.profileImg;
             if (profileFile) {
                 imgUrl = await uploadToImgBB(profileFile);
+                if (!imgUrl) {
+                    alert('Profile image upload failed');
+                    return;
+                }
             }
             const formData = new URLSearchParams({
                 action: 'update_profile',
@@ -333,24 +373,31 @@
                 currentUser = { ...currentUser, ...data.user };
                 loadUserData();
                 alert('Updated!');
+            } else {
+                alert('Update failed');
             }
         });
 
-        // Upload to ImgBB
+        // Upload to ImgBB - Error handling added
         async function uploadToImgBB(file) {
             const formData = new FormData();
             formData.append('image', file);
             formData.append('key', IMGBB_API);
-            const res = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
-            const data = await res.json();
-            return data.success ? data.data.url : null;
+            try {
+                const res = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
+                const data = await res.json();
+                return data.success ? data.data.url : null;
+            } catch (err) {
+                console.error('ImgBB error:', err);
+                return null;
+            }
         }
 
         // Tab Switching
         function showTab(tab) {
             document.querySelectorAll('[id$="Tab"]').forEach(el => el.classList.add('hidden'));
             document.getElementById(tab + 'Tab').classList.remove('hidden');
-            document.querySelectorAll('button[onclick="showTab"]').forEach(btn => btn.classList.remove('text-lightblue-300', 'border-b-2', 'border-lightblue-500'));
+            document.querySelectorAll('button[onclick^="showTab"]').forEach(btn => btn.classList.remove('text-lightblue-300', 'border-b-2', 'border-lightblue-500'));
             event.target.classList.add('text-lightblue-300', 'border-b-2', 'border-lightblue-500');
             if (tab === 'ads') loadAds();
         }
@@ -364,9 +411,7 @@
         }
 
         // Init
-        document.getElementById('editName').value = ''; // Will load on show
         checkSession();
-        showTab('ads'); // Default
     </script>
 </body>
 </html>
