@@ -1,8 +1,9 @@
+// GitHub ads.js
 const ADS_CONFIG = {
-    endpoint: 'https://script.google.com/macros/s/AKfycbzCN38he4GItqvJIGxKrRg9odkofBcaK8qDBKvEv7GIBYI_YlyZ2rnhiz8fnQ1y8_ZptQ/exec'
+    endpoint: 'https://script.google.com/macros/s/AKfycbznhzcqZLs3WcWU2LLgoKFGy6FVwo2U2UH0zmx0cNMsqJlKLPveXNVlcb-OsSnBQc5C/exec'
 };
 
-async function getRandomAd() { 
+async function getRandomAd() {
     try {
         const res = await fetch(ADS_CONFIG.endpoint, {
             method: 'POST',
@@ -18,7 +19,6 @@ async function getRandomAd() {
     }
     return null;
 }
-
 async function updateAdView(adUrl) {
     try {
         await fetch(ADS_CONFIG.endpoint, {
@@ -30,10 +30,3 @@ async function updateAdView(adUrl) {
         console.error('[Ad] View update failed');
     }
 }
-
-// For integration in player: Call this on ad end
-// Example:
-// adContainer.addEventListener('ended', async () => {
-//     await updateAdView(currentAdUrl);
-//     // Then end ad
-// });
