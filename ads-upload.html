@@ -1,6 +1,7 @@
+<!-- GitHub Ads Uploader Page (ads-upload.html) -->
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MOOVIED Ads Dashboard</title>
@@ -177,12 +178,11 @@
         </div>
     </div>
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzCN38he4GItqvJIGxKrRg9odkofBcaK8qDBKvEv7GIBYI_YlyZ2rnhiz8fnQ1y8_ZptQ/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznhzcqZLs3WcWU2LLgoKFGy6FVwo2U2UH0zmx0cNMsqJlKLPveXNVlcb-OsSnBQc5C/exec';
         const IMGBB_API = '912bd1391e9372f65c0918e17f0ed370';
         const ADMIN_EMAIL = 'mooviedsited@gmail.com';
         const SUPPORT_WHATSAPP = '+94770342724';
         let currentUser = { email: '', name: '', deviceId: '' };
-        let adsPollInterval; // For real-time polling
         // Convert file to base64
         async function fileToBase64(file) {
             return new Promise((resolve, reject) => {
@@ -231,7 +231,6 @@
                         loadUserData();
                         document.getElementById('dashboard').classList.remove('hidden');
                         document.getElementById('authModal').classList.add('hidden');
-                        startAdsPolling(); // Start real-time polling
                     } else {
                         localStorage.removeItem('userEmail');
                         showAuth();
@@ -243,15 +242,6 @@
             } else {
                 showAuth();
             }
-        }
-        // Real-time polling for ads views
-        function startAdsPolling() {
-            loadAds(); // Initial load
-            if (adsPollInterval) clearInterval(adsPollInterval);
-            adsPollInterval = setInterval(loadAds, 10000); // Poll every 10s for real-time updates
-        }
-        function stopAdsPolling() {
-            if (adsPollInterval) clearInterval(adsPollInterval);
         }
         // Show/Hide Auth Modal
         function showAuth() {
@@ -291,7 +281,6 @@
                     loadUserData();
                     document.getElementById('dashboard').classList.remove('hidden');
                     toggleAuth();
-                    startAdsPolling(); // Start polling on login
                 } else {
                     alert(data.message || 'Authentication failed');
                 }
@@ -308,8 +297,9 @@
             document.getElementById('editName').value = currentUser.name;
             document.getElementById('editPhone').value = currentUser.phone;
             await loadAds();
+            setInterval(loadAds, 10000);  // Poll every 10s for real-time views
         }
-        // Load Ads (Real-time via polling)
+        // Load Ads
         async function loadAds() {
             const formData = new URLSearchParams({ action: 'get_ads', email: currentUser.email });
             try {
@@ -330,7 +320,6 @@
                         ` : ''}
                     </div>
                 `).join('');
-                console.log('[Dashboard] Ads updated with real-time views');
             } catch (err) {
                 console.error('Load ads error:', err);
                 alert('Failed to load ads');
@@ -372,7 +361,7 @@
                 if (data.success) {
                     alert('Ad uploaded successfully! Awaiting approval.');
                     document.getElementById('uploadForm').reset();
-                    loadAds(); // Refresh list
+                    loadAds();
                 } else {
                     alert(data.message || 'Upload failed');
                 }
@@ -448,7 +437,6 @@
         }
         // Logout
         function logout() {
-            stopAdsPolling(); // Stop polling
             localStorage.removeItem('userEmail');
             currentUser = {};
             document.getElementById('dashboard').classList.add('hidden');
