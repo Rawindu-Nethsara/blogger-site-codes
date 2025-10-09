@@ -85,10 +85,6 @@
       justify-content: space-between;
       font-size: 13px;
     }
-    .flex-row > div > label {
-      color: #d1d5db;
-      font-weight: 400;
-    }
     .checkbox-container {
       display: flex;
       align-items: center;
@@ -790,7 +786,7 @@
       </div>
       <div class="inputForm">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 32 32" height="20">
-          <path d="M28 4h-24c-2.21 0-4 1.79-4 4v16c0 2.21 1.79 4 4 4h24c2.21 0 4-1.79 4-4v-16c0-2.21-1.79-4-4-4zm-2 18h-20v-12h20v12z"></path>
+          <path d="M28 4h-24c-2.21 0-4 1.79-4 4v16c0 2.21 1.79 4 4 4h24c2.21 0 4-1.79 4-4v16c0-2.21-1.79-4-4-4zm-2 18h-20v-12h20v12z"></path>
         </svg>
         <input placeholder="Enter your Business Name" class="input" type="text" id="signupBusiness" required>
       </div>
@@ -1028,7 +1024,7 @@
       userName: 'User',
       profileImage: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
       selectedSlipFile: null,
-      APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwSZeLHKepVJk7_dh5jIRH8_0r_s8ZCDf5nBXieq-q-pK_C4FVkIurDWPuMW0A76FnQdQ/exec',
+      APPS_SCRIPT_URL: 'https://m-ads.mooviedsited.workers.dev',
       WORKER_URL: 'https://m-ads.mooviedsited.workers.dev',
       SUPPORT_PHONE: '+94770342724'
     };
@@ -1038,6 +1034,8 @@
       banner: {1: 450, 6: 2500, 12: 4950, 60: 26500},
       sticky: {1: 250, 6: 1500, 12: 2950, 60: 14000}
     };
+
+    let chartInstance = null;
 
     // Authentication Functions
     function showSignup() {
@@ -1056,9 +1054,15 @@
       const password = document.getElementById('signinPassword').value;
       const rememberMe = document.getElementById('rememberMe').checked;
 
+      console.log('Sign-in attempt:', { email });
+
       try {
-        const response = await fetch(`${state.APPS_SCRIPT_URL}?action=fetchUser&email=${encodeURIComponent(email)}`);
+        const response = await fetch(`${state.APPS_SCRIPT_URL}?action=fetchUser&email=${encodeURIComponent(email)}`, {
+          method: 'GET'
+        });
         const result = await response.json();
+        console.log('Sign-in response:', result);
+
         if (result.success && result.user && result.user.password === password) {
           state.isAuthenticated = true;
           state.userEmail = email;
@@ -1068,7 +1072,7 @@
           showDashboard();
           if (rememberMe) {
             localStorage.setItem('userEmail', email);
-            localStorage.setItem('userToken', btoa(email + ':' + password)); // Simple token
+            localStorage.setItem('userToken', btoa(email + ':' + password));
           }
           fetchUserAds();
           alert('✅ Signed in successfully!');
@@ -1077,7 +1081,7 @@
         }
       } catch (error) {
         console.error('Sign-in error:', error);
-        alert('❌ Sign-in failed: Network error.');
+        alert('❌ Sign-in failed: Network error. Please check your connection.');
       }
     }
 
@@ -1101,11 +1105,18 @@
       formData.append('email', email);
       formData.append('business', business);
       formData.append('phone', phone);
-      formData.append('password', password); // Note: In prod, hash passwords
+      formData.append('password', password);
+
+      console.log('Sign-up attempt:', { name, email, business, phone });
 
       try {
-        const response = await fetch(state.APPS_SCRIPT_URL, { method: 'POST', body: formData });
+        const response = await fetch(state.APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: formData
+        });
         const result = await response.json();
+        console.log('Sign-up response:', result);
+
         if (result.success) {
           state.isAuthenticated = true;
           state.userEmail = email;
@@ -1120,7 +1131,7 @@
         }
       } catch (error) {
         console.error('Sign-up error:', error);
-        alert('❌ Sign-up failed: Network error.');
+        alert('❌ Sign-up failed: Network error. Please check your connection.');
       }
     }
 
@@ -1135,11 +1146,7 @@
         localStorage.removeItem('userToken');
         document.getElementById('dashboardContainer').classList.add('hidden');
         document.getElementById('authContainer').classList.remove('hidden');
-        document.getElementById('signin-form').style.display = 'flex';
-        document.getElementById('signup-form').style.display = 'none';
-        document.getElementById('signinEmail').value = '';
-        document.getElementById('signinPassword').value = '';
-        document.getElementById('rememberMe').checked = false;
+        showSignin();
         alert('👋 Logged out successfully!');
       }
     }
@@ -1174,6 +1181,35 @@
           handleSlipUpload({ target: { files: [files[0]] } });
         }
       });
+    }
+
+    function goHome() {
+      fetchUserAds();
+      settingsMenu.classList.remove('active');
+    }
+
+    function changeName() {
+      const newName = prompt('Enter new name:', state.userName);
+      if (newName) {
+        state.userName = newName;
+        alert('✅ Name updated!');
+      }
+      settingsMenu.classList.remove('active');
+    }
+
+    function changeProfileImage() {
+      const newImage = prompt('Enter new profile image URL:', state.profileImage);
+      if (newImage) {
+        state.profileImage = newImage;
+        document.getElementById('profileIcon').src = newImage;
+        alert('✅ Profile image updated!');
+      }
+      settingsMenu.classList.remove('active');
+    }
+
+    function contactMoovied() {
+      alert(`📞 Contact us at ${state.SUPPORT_PHONE} or support@moovied.com`);
+      settingsMenu.classList.remove('active');
     }
 
     function openBankSlipUpload() {
@@ -1273,6 +1309,8 @@
       formData.append('duration', duration);
       formData.append('targetUrl', url);
 
+      console.log('Ad upload attempt:', { title, type, duration, url });
+
       const adReader = new FileReader();
       adReader.onload = async (e) => {
         formData.append('adFile', e.target.result);
@@ -1288,6 +1326,8 @@
           try {
             const response = await fetch(state.APPS_SCRIPT_URL, { method: 'POST', body: formData });
             const result = await response.json();
+            console.log('Ad upload response:', result);
+
             if (result.success) {
               alert('✅ Ad uploaded - pending approval!');
               document.getElementById('adTitle').value = '';
@@ -1301,8 +1341,8 @@
               alert('❌ Upload failed: ' + result.error);
             }
           } catch (error) {
-            console.error('Upload error:', error);
-            alert('❌ Upload failed: Network error.');
+            console.error('Ad upload error:', error);
+            alert('❌ Upload failed: Network error. Please check your connection.');
           }
         };
         slipReader.readAsDataURL(state.selectedSlipFile);
@@ -1313,8 +1353,12 @@
     async function fetchUserAds() {
       if (!state.userEmail) return;
       try {
-        const response = await fetch(`${state.APPS_SCRIPT_URL}?email=${encodeURIComponent(state.userEmail)}`);
+        const response = await fetch(`${state.APPS_SCRIPT_URL}?email=${encodeURIComponent(state.userEmail)}`, {
+          method: 'GET'
+        });
         const result = await response.json();
+        console.log('Fetch ads response:', result);
+
         if (result.success) {
           state.ads = result.ads;
           renderAds();
@@ -1409,7 +1453,7 @@
               <button class="btn btn-small btn-success" onclick="trackAd('${ad.adId}', 'view')">+ Add View</button>
               <button class="btn btn-small btn-success" onclick="trackAd('${ad.adId}', 'click')">+ Add Click</button>
               <button class="btn btn-small btn-success" onclick="trackAd('${ad.adId}', 'watchTime', ${Math.floor(Math.random() * 60) + 10})">+ Add Watch Time</button>
-              <button class="btn btn-small btn-danger" onclick="deleteAd(${index})">🗑️ Delete</button>
+              <button class="btn btn-small btn-danger" onclick="deleteAd('${ad.adId}')">🗑️ Delete</button>
             </div>
           </div>`;
       }).join('');
@@ -1428,9 +1472,10 @@
         const response = await fetch(state.WORKER_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adId, type, value })
+          body: JSON.stringify({ action: 'trackAd', adId, type, value })
         });
         const result = await response.json();
+        console.log('Track response:', result);
         if (result.success) {
           fetchUserAds();
           alert(`✅ Tracked ${type}!`);
@@ -1443,12 +1488,31 @@
       }
     }
 
-    function deleteAd(index) {
+    async function deleteAd(adId) {
       if (confirm('Are you sure you want to delete this advertisement?')) {
-        state.ads.splice(index, 1);
-        renderAds();
-        updateOverview();
-        updateChart();
+        try {
+          const formData = new FormData();
+          formData.append('action', 'deleteAd');
+          formData.append('email', state.userEmail);
+          formData.append('adId', adId);
+
+          const response = await fetch(state.APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: formData
+          });
+          const result = await response.json();
+          console.log('Delete ad response:', result);
+
+          if (result.success) {
+            alert('✅ Ad deleted successfully!');
+            fetchUserAds();
+          } else {
+            alert('❌ Delete failed: ' + result.error);
+          }
+        } catch (error) {
+          console.error('Delete ad error:', error);
+          alert('❌ Delete failed: Network error.');
+        }
       }
     }
 
@@ -1457,7 +1521,7 @@
       const totalViews = state.ads.reduce((sum, ad) => sum + ad.views, 0);
       const totalClicks = state.ads.reduce((sum, ad) => sum + ad.clicks, 0);
       const totalWatchTime = state.ads.reduce((sum, ad) => sum + ad.watchTime, 0);
-      
+
       document.getElementById('totalAds').textContent = totalAds.toLocaleString();
       document.getElementById('totalViews').textContent = totalViews.toLocaleString();
       document.getElementById('totalClicks').textContent = totalClicks.toLocaleString();
@@ -1465,45 +1529,40 @@
     }
 
     function updateChart() {
-      const ctx = document.getElementById('analyticsChart');
-      if (!ctx) return;
-      
-      if (state.ads.length === 0) {
-        if (window.adChart) window.adChart.destroy();
-        return;
+      const ctx = document.getElementById('analyticsChart').getContext('2d');
+      const labels = state.ads.map(ad => ad.title);
+      const viewsData = state.ads.map(ad => ad.views);
+      const clicksData = state.ads.map(ad => ad.clicks);
+      const watchTimeData = state.ads.map(ad => ad.watchTime);
+
+      if (chartInstance) {
+        chartInstance.destroy();
       }
-      
-      const labels = state.ads.map(ad => ad.title.length > 15 ? ad.title.substring(0, 15) + '...' : ad.title);
-      const views = state.ads.map(ad => ad.views);
-      const clicks = state.ads.map(ad => ad.clicks);
-      const watchTime = state.ads.map(ad => Math.floor(ad.watchTime / 60));
-      
-      if (window.adChart) window.adChart.destroy();
-      
-      window.adChart = new Chart(ctx, {
+
+      chartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels,
+          labels: labels.length ? labels : ['No Data'],
           datasets: [
             {
               label: 'Views',
-              data: views,
-              backgroundColor: 'rgba(59, 130, 246, 0.6)',
-              borderColor: 'rgba(59, 130, 246, 1)',
+              data: viewsData.length ? viewsData : [0],
+              backgroundColor: 'rgba(59, 130, 246, 0.5)',
+              borderColor: '#3b82f6',
               borderWidth: 1
             },
             {
               label: 'Clicks',
-              data: clicks,
-              backgroundColor: 'rgba(168, 85, 247, 0.6)',
-              borderColor: 'rgba(168, 85, 247, 1)',
+              data: clicksData.length ? clicksData : [0],
+              backgroundColor: 'rgba(168, 85, 247, 0.5)',
+              borderColor: '#a855f7',
               borderWidth: 1
             },
             {
-              label: 'Watch Time (min)',
-              data: watchTime,
-              backgroundColor: 'rgba(34, 197, 94, 0.6)',
-              borderColor: 'rgba(34, 197, 94, 1)',
+              label: 'Watch Time (s)',
+              data: watchTimeData.length ? watchTimeData : [0],
+              backgroundColor: 'rgba(34, 197, 94, 0.5)',
+              borderColor: '#22c55e',
               borderWidth: 1
             }
           ]
@@ -1511,23 +1570,20 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              labels: {
-                color: '#d1d5db',
-                font: { size: 13 }
-              }
-            }
-          },
           scales: {
             y: {
               beginAtZero: true,
-              ticks: { color: '#6b7280' },
-              grid: { color: 'rgba(255,255,255,0.05)' }
+              ticks: { color: '#d1d5db' },
+              grid: { color: 'rgba(255,255,255,0.1)' }
             },
             x: {
-              ticks: { color: '#6b7280' },
-              grid: { color: 'rgba(255,255,255,0.05)' }
+              ticks: { color: '#d1d5db' },
+              grid: { color: 'rgba(255,255,255,0.1)' }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: { color: '#d1d5db' }
             }
           }
         }
@@ -1537,76 +1593,19 @@
     function showDashboard() {
       document.getElementById('authContainer').classList.add('hidden');
       document.getElementById('dashboardContainer').classList.remove('hidden');
-      document.querySelector('.logo-text h1').textContent = `Welcome, ${state.userName}`;
     }
 
-    function contactMoovied() {
-      alert(`📞 Contact Moovied Support\n\nEmail: support@moovied.com\nPhone: ${state.SUPPORT_PHONE}\n\nWe're here to help 24/7!`);
-    }
-
-    function goHome() {
-      fetchUserAds();
-      alert('🏠 Returning to Dashboard Home');
-    }
-
-    function changeName() {
-      const newName = prompt('Enter your new name:', state.userName);
-      if (newName && newName.trim()) {
-        state.userName = newName.trim();
-        document.querySelector('.logo-text h1').textContent = `Welcome, ${state.userName}`;
-        alert('✅ Name updated successfully!');
-      }
-    }
-
-    function changeProfileImage() {
-      const newUrl = prompt('Enter profile image URL:', state.profileImage);
-      if (newUrl && newUrl.trim()) {
-        state.profileImage = newUrl.trim();
-        document.getElementById('profileIcon').src = newUrl.trim();
-        alert('✅ Profile image updated successfully!');
-      }
-    }
-
-    // Auto-login on page load
-    async function checkAutoLogin() {
-      const email = localStorage.getItem('userEmail');
-      const token = localStorage.getItem('userToken');
-      if (email && token) {
-        try {
-          const [tokenEmail, tokenPassword] = atob(token).split(':');
-          if (tokenEmail === email) {
-            const response = await fetch(`${state.APPS_SCRIPT_URL}?action=fetchUser&email=${encodeURIComponent(email)}`);
-            const result = await response.json();
-            if (result.success && result.user && result.user.password === tokenPassword) {
-              state.isAuthenticated = true;
-              state.userEmail = email;
-              state.userName = result.user.name;
-              state.profileImage = result.user.profileImage || state.profileImage;
-              document.getElementById('profileIcon').src = state.profileImage;
-              showDashboard();
-              fetchUserAds();
-            } else {
-              localStorage.removeItem('userEmail');
-              localStorage.removeItem('userToken');
-              showSignin();
-            }
-          }
-        } catch (error) {
-          console.error('Auto-login error:', error);
-          showSignin();
-        }
-      } else {
-        showSignin();
-      }
-    }
-
-    // Initialize
+    // Auto-login if token exists
     window.onload = () => {
-      document.getElementById('authContainer').classList.remove('hidden');
-      document.getElementById('signin-form').style.display = 'flex';
-      document.getElementById('signup-form').style.display = 'none';
-      document.getElementById('dashboardContainer').classList.add('hidden');
-      checkAutoLogin();
+      const savedEmail = localStorage.getItem('userEmail');
+      const savedToken = localStorage.getItem('userToken');
+      if (savedEmail && savedToken) {
+        const [email, password] = atob(savedToken).split(':');
+        document.getElementById('signinEmail').value = email;
+        document.getElementById('signinPassword').value = password;
+        document.getElementById('rememberMe').checked = true;
+        handleSignIn(new Event('submit'));
+      }
     };
   </script>
 </body>
