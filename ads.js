@@ -4,7 +4,7 @@
 // Ad Configuration
 window.AD_CONFIG = {
   // Ad link - change this anytime from GitHub
-  adLink: 'https://www.effectivegatecpm.com/qmt1bsek9?key=5751779d6f2505d8275357466867e8a7',
+  adLink: 'https://www.effectivegatecpm.com/jgikgyvt36?key=0bcec789d41ba1308e075d3014dfd923',
   
   // Cooldown time in milliseconds (25000 = 25 seconds)
   adCooldown: 25000,
