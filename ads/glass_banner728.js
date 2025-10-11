@@ -2,28 +2,21 @@
   var container = document.getElementById('ad-container');
   if (!container) return;
 
-  // Clear "Ad loading..." message
+  // Clean container
   container.innerHTML = '';
 
-  // Create Adsterra main script dynamically
-  var adScript = document.createElement('script');
-  adScript.type = 'text/javascript';
-  adScript.innerHTML = `
-    atOptions = {
-      'key': '7f8292d63d798b97c503a0b40480244f',
-      'format': 'iframe',
-      'height': 90,
-      'width': 728,
-      'params': {}
-    };
-  `;
+  // Create Adsterra iframe manually
+  var iframe = document.createElement('iframe');
+  iframe.src = 'https://www.highperformanceformat.com/7f8292d63d798b97c503a0b40480244f/invoke.html';
+  iframe.width = '728';
+  iframe.height = '90';
+  iframe.frameBorder = '0';
+  iframe.scrolling = 'no';
+  iframe.style.border = 'none';
+  iframe.style.overflow = 'hidden';
+  iframe.style.width = '728px';
+  iframe.style.height = '90px';
+  iframe.setAttribute('allow', 'autoplay; fullscreen');
 
-  // Create Adsterra invoke.js loader
-  var invokeScript = document.createElement('script');
-  invokeScript.type = 'text/javascript';
-  invokeScript.src = '//www.highperformanceformat.com/7f8292d63d798b97c503a0b40480244f/invoke.js';
-
-  // Inject both into the container
-  container.appendChild(adScript);
-  container.appendChild(invokeScript);
+  container.appendChild(iframe);
 })();
