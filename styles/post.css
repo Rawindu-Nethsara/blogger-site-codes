@@ -3092,31 +3092,32 @@ button6 {
        WATCH ONLINE
     ====================== */
 
- /* make button a stacking context */
-.plyr__control[data-plyr="settings"]{
-  position: relative;
-  overflow: visible; /* allow pseudo-element to sit on top */
-}
-/* keep svg visible but behind the overlay */
-.plyr__control[data-plyr="settings"] svg{
-  position: relative;
-  z-index: 1;
-  /* optional fallback if svg still intercepts events */
-  pointer-events: none; /* allow pointer to go to overlay instead */
-}
-/* overlay sits on top of the svg and receives pointer events */
-.plyr__control[data-plyr="settings"]::after{
-  content: "";
-  position: absolute;
-  inset: 0; /* top:0; right:0; bottom:0; left:0; */
-  z-index: 2; /* above svg */
-  pointer-events: auto;/* overlay receives clicks/hover */
-}
-.plyr__menu__container .plyr__control--forward:after {
-  display:none;
-}
-/* style the overlay on hover (this creates the visible "bg action") */
-    /* Background blur overlay */
+ hr.glass {width: 100%; height: 1px; border: none; border-radius: 10px; background: rgb(51 51 51); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);}
+    #serverSection.active {max-width: -webkit-fill-available; width: -webkit-fill-available;}
+    @media screen and (max-width: 480px) {
+      .glass-bar {padding: 5px 6px; font-size: 10px; margin-top: -10px; margin-right: -10px;}
+    }
+    /* Plyr Settings Button */
+    .plyr__control[data-plyr="settings"] {
+      position: relative;
+      overflow: visible;
+    }
+    .plyr__control[data-plyr="settings"] svg {
+      position: relative;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .plyr__control[data-plyr="settings"]::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: auto;
+    }
+    .plyr__menu__container .plyr__control--forward:after {
+      display: none;
+    }
+    /* Blur Overlay */
     .blur-overlay {
       position: fixed;
       top: 0;
@@ -3158,7 +3159,7 @@ button6 {
       overflow: hidden;
       transition: all 0.4s ease-in-out;
       box-shadow: 0 4px 15px rgba(0, 230, 100, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2);
-      animation: pulse2 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite, pulse3 1.5s cubic-bezier(0.8, 0, 0, 1) infinite normal none running;
+      animation: pulse2 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite, pulse3 1.5s cubic-bezier(0.8, 0, 0, 1) infinite;
       border: 2px solid #3b3b3b;
     }
     .button12:is(:hover, :focus) {
@@ -3200,7 +3201,6 @@ button6 {
       50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
       100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
     }
-    /* Responsive Design */
     @media (max-width: 768px) {
       .button12-container { min-height: 10vh; }
       .button12 { width: 50px; height: 50px; }
@@ -3210,7 +3210,7 @@ button6 {
       .button12 { width: 45px; height: 45px; }
       .button12-text { font-size: 20px; }
     }
-    /* Server Selection UI Styles */
+    /* Server Selection UI */
     @keyframes pulse23 {
       0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
       50% { transform: scale(1.2); opacity: 0.7; box-shadow: 0 0 12px rgba(34, 197, 94, 0.8); }
@@ -3257,16 +3257,17 @@ button6 {
       z-index: -1;
     }
     /* Video Player Styles */
-    .plyr {
-      position: relative;
-      width: 100%;
-      max-width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      overflow: hidden;
-      z-index: 1;
-      pointer-events: auto !important;
-    }
+  .plyr {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: auto !important;
+    border: 1px solid #ffffff29;
+}
     .plyr video {
       width: 100%;
       height: 100%;
@@ -3362,10 +3363,11 @@ button6 {
       font-size: 12px;
       cursor: pointer;
       display: none;
-      z-index: 99999;
+      z-index: 10;
       border-radius: 20px;
       line-height: normal;
       color: #fff;
+      opacity: 1;
     }
     .video-wrapper {
       position: relative;
@@ -3400,7 +3402,6 @@ button6 {
     .popup-overlay.active {
       display: flex;
     }
-    /* Hide Server Section by Default */
     #serverSection {
       display: none;
       opacity: 0;
@@ -3411,8 +3412,8 @@ button6 {
       opacity: 1;
     }
     .plyr__video-wrapper {
-    height: auto;
-}
+      height: auto;
+    }
     @media (max-width: 768px) {
       .popup-content { max-width: 90%; }
     }
@@ -3421,29 +3422,93 @@ button6 {
       .plyr { border-radius: 0; }
     }
     @media (max-width: 480px) {
-  .plyr__volume {
-    display: none;
-  }
-      .glass-bar {
-    padding: 6px 10px;
-    left: 0px;
-    position: relative;
-    top: 0px;
-}
-      .live-views-container {
-    gap: 15px;
-  }
-      .popup-content {
-    border-radius: 10px;
-}
-       .popup-overlay {
-      padding: 16px;
-      padding-right: 5px;
-    padding-left: 5px;
+      .plyr__volume { display: none; }
+      .glass-bar { padding: 6px 10px; left: 0px; position: relative; top: 0px; }
+      .live-views-container { gap: 15px; }
+      .popup-content { border-radius: 10px; }
+      .popup-overlay { padding: 16px; padding-right: 5px; padding-left: 5px; }
     }
-}
-    
-
+    /* Ad Overlay Styles */
+    #adOverlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 5;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+    }
+    #adBadgeOverlay {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      z-index: 6;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 12px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 1;
+    }
+    #adVideo {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      opacity: 1;
+    }
+    /* Fullscreen Support */
+    .plyr:fullscreen #adOverlay,
+    .plyr:-webkit-full-screen #adOverlay,
+    .plyr:-moz-full-screen #adOverlay,
+    .plyr:-ms-fullscreen #adOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 5;
+      opacity: 1;
+    }
+    .plyr:fullscreen #adBadgeOverlay,
+    .plyr:-webkit-full-screen #adBadgeOverlay,
+    .plyr:-moz-full-screen #adBadgeOverlay,
+    .plyr:-ms-fullscreen #adBadgeOverlay {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 6;
+      opacity: 1;
+    }
+    .plyr:fullscreen #skipButton,
+    .plyr:-webkit-full-screen #skipButton,
+    .plyr:-moz-full-screen #skipButton,
+    .plyr:-ms-fullscreen #skipButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10;
+      opacity: 1;
+    }
+    .plyr:fullscreen .live-views-container,
+    .plyr:-webkit-full-screen .live-views-container,
+    .plyr:-moz-full-screen .live-views-container,
+    .plyr:-ms-fullscreen .live-views-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 4;
+      opacity: 1;
+    }
     /*===================================
              WATCH ONLINE OVER
     ===================================== */
