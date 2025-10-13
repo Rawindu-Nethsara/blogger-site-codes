@@ -2681,19 +2681,21 @@ a:hover {
 }
 
 .icon4-background {
-    width: 80px;
+    width: 40px;
     height: 80px;
     background-color: #ffffff57;
-    -webkit-mask-image: url(https://res.cloudinary.com/drrjjz081/image/upload/v1747283462/play-button_ujzhxk.png);
+    -webkit-mask-image: url(https://res.cloudinary.com/dyqw58yqs/image/upload/v1759076144/play4_elstko.svg);
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
     -webkit-mask-size: contain;
-    mask-image: url(https://res.cloudinary.com/drrjjz081/image/upload/v1747283462/play-button_ujzhxk.png);
+    mask-image: url(https://res.cloudinary.com/dyqw58yqs/image/upload/v1759076144/play4_elstko.svg);
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: contain;
-    margin: 68px auto 0;
-    animation: pulse4 1.5s infinite ease-in-out;
+    margin: 63px auto 0;
+    animation: pulse 1.5s infinite ease-in-out;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+    border-radius: 8px; /* optional soft edges */
 }
 @keyframes pulse4 {
     0%, 100% {
