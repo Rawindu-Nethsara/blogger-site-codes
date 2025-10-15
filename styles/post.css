@@ -1583,14 +1583,13 @@ blockquote.s-1, details.sp {
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .owner-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgb(255 255 255 / 0%);
-    box-shadow: 0 2px 8px rgb(0 0 0);
-    border-radius: 9px;
+    .owner-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0);
+  box-shadow: 0 2px 8px rgb(0 0 0);
+  border-radius: 50% !important;
 }
         .format-badge {
             display: inline-block;
