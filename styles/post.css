@@ -1681,9 +1681,9 @@ blockquote.s-1, details.sp {
             height: 8px;
             background: #4ade80;
             border-radius: 50%;
-            animation: pulse 2s infinite;
+            animation: pulse9 2s infinite;
         }
-        @keyframes pulse {
+        @keyframes pulse9 {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.6; transform: scale(0.95); }
         }
