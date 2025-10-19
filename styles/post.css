@@ -1483,7 +1483,6 @@ blockquote.s-1, details.sp {
     transform: translateY(20px);
     position: relative;
     z-index: 9;
-     margin-bottom: 20px;
 }
         .table-container.visible {
             max-height: 1000px;
