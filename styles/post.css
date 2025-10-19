@@ -3155,13 +3155,14 @@ button6 {
       pointer-events: auto;
     }
     /* Watch Online Button */
-    .button12-container {
+ .button12-container {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     min-height: 15vh;
     margin-top: 20px;
+    margin-bottom: -10px;
 }
     .button12 {
       display: flex;
