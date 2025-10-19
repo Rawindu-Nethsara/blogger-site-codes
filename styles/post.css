@@ -3156,13 +3156,13 @@ button6 {
     }
     /* Watch Online Button */
     .button12-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 15vh;
-      margin-top: 20px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 15vh;
+    margin-top: 20px;
+}
     .button12 {
       display: flex;
       justify-content: center;
